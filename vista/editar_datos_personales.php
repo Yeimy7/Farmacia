@@ -83,7 +83,7 @@ if ($_SESSION['us_tipo'] == 1) {
                                         <i class="fas fa-pencil mr-1"></i>Información adicional
                                     </strong>
                                     <p id="adicional_us" class="text-muted">4235889</p>
-                                    <button class="bg-gradient-danger btn btn-block">Editar</button>
+                                    <button class="edit bg-gradient-danger btn btn-block">Editar</button>
                                 </div>
                                 <div class="card-footer">
                                     <p class="text-muted">click en boton si desea editar</p>
@@ -96,7 +96,13 @@ if ($_SESSION['us_tipo'] == 1) {
                                     <h3 class="card-title">Editar datos personales</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form class="form-horizontal">
+                                    <div class="alert alert-success text-center" id="editado" style="display: none;">
+                                        <span><i class="fas fa-check m-1"></i>Editado</span>
+                                    </div>
+                                    <div class="alert alert-danger text-center" id="noeditado" style="display: none;">
+                                        <span><i class="fas fa-times m-1"></i>Edición Deshabilitada</span>
+                                    </div>
+                                    <form id="form-usuario" class="form-horizontal">
                                         <div class="form-group row">
                                             <label for="telefono" class="col-sm-2 col-form-label">Teléfono</label>
                                             <div class="col-sm-10">
@@ -124,7 +130,7 @@ if ($_SESSION['us_tipo'] == 1) {
                                         <div class="form-group row">
                                             <label for="adicional" class="col-sm-2 col-form-label">Información Adicional</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" name="" id="adocional" cols="30" rows="10"></textarea>
+                                                <textarea class="form-control" name="" id="adicional" cols="30" rows="10"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row">
