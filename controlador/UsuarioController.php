@@ -3,12 +3,16 @@
     $usuario = new Usuario();
     if($_POST['funcion']=='buscar_usuario'){
         $json=array();
+        $fecha_actual=new DateTime();
         $usuario->obtener_datos($_POST['dato']);
         foreach ($usuario->objetos as $objeto) {
+            $nacimiento=new DateTime($objeto->edad);
+            $edad=$nacimiento->diff($fecha_actual);
+            $edad_years=$edad->y;
             $json[]=array(
                 'nombre'=>$objeto->nombre_us,
                 'apellidos'=>$objeto->apellidos_us,
-                'edad'=>$objeto->edad,
+                'edad'=>$edad_years,
                 'dni'=>$objeto->dni_us,
                 'tipo'=>$objeto->nombre_tipo,
                 'telefono'=>$objeto->telefono_us,
@@ -46,5 +50,11 @@
         $adicional=$_POST['adicional'];
         $usuario->editar($id_usuario,$telefono,$residencia,$correo,$sexo,$adicional);
         echo 'editado';
+    }
+    if($_POST['funcion']=='cambiar_contra'){
+        $id_usuario=$_POST['id_usuario'];
+        $oldpass=$_POST['oldpass'];
+        $newpass=$_POST['newpass'];
+        $usuario->cambiar_contra($id_usuario, $oldpass, $newpass);
     }
 ?>
