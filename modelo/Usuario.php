@@ -43,6 +43,19 @@
                 echo 'noupdate';
             }
         }
+        function cambiar_photo($id_usuario,$nombre)
+        {
+            $sql="SELECT avatar FROM usuario where id_usuario=:id";
+            $query=$this->acceso->prepare($sql);
+            $query->execute(array(':id'=>$id_usuario));
+            $this->objetos=$query->fetchall();
+
+            $sql= "UPDATE usuario SET avatar=:nombre where id_usuario=:id";
+            $query=$this->acceso->prepare($sql);
+            $query->execute(array(':id'=>$id_usuario, ':nombre'=>$nombre));
+            return $this->objetos;    
+            
+        }
     }
 
 
