@@ -12,6 +12,9 @@ include_once '../modelo/Usuario.php';
             case 2:
                 header('Location: ../vista/tec_catalogo.php');
                 break;
+            case 3:
+                header('Location: ../vista/adm_catalogo.php');
+                break;
         }
     }
     else{
@@ -29,15 +32,13 @@ include_once '../modelo/Usuario.php';
                 case 2:
                     header('Location: ../vista/tec_catalogo.php');
                     break;
-                    
-                default:
-                    # code...
-                    break;
+                 case 3:
+                    header('Location: ../vista/adm_catalogo.php');
+                    break;    
+             
             }
         }
         else{
             header('Location: ../index.php');
         }
     }
-    
-?>

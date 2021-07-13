@@ -1,13 +1,17 @@
-$(document).ready(function(){
-    let funcion='';
+$(document).ready(function () {
+    let funcion = '';
+    let tipo_usuario = $('#tipo_usuario').val();
+    if (tipo_usuario == 2) {
+        $('#button-crear').hide();
+    }
     buscar_datos();
-    function buscar_datos(consulta){
-        funcion='buscar_usuarios_adm';
-        $.post('../controlador/UsuarioController.php',{consulta,funcion},(response)=>{
+    function buscar_datos(consulta) {
+        funcion = 'buscar_usuarios_adm';
+        $.post('../controlador/UsuarioController.php', { consulta, funcion }, (response) => {
             const usuarios = JSON.parse(response);
-            let template='';
+            let template = '';
             usuarios.forEach(usuario => {
-                template+=`
+                template += `
                 <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
                 <div class="card bg-light">
                     <div class="card-header text-muted border-bottom-0">
@@ -34,10 +38,29 @@ $(document).ready(function(){
                         </div>
                     </div>
                     <div class="card-footer">
-                        <div class="text-right">
-                            <button class="btn btn-danger">
-                                <i class="fas fa-window-close mr-1"></i>Eliminar
-                            </button>
+                        <div class="text-right">`;
+                if (tipo_usuario == 3) {
+                    if (usuario.tipo_usuario != 3) {
+                        template += `
+                                    <button class="btn btn-danger mr-1">
+                                        <i class="fas fa-window-close mr-1"></i>Eliminar
+                                    </button>`;
+                    }
+                    if (usuario.tipo_usuario == 2) {
+                        template += `
+                                    <button class="btn btn-primary ml-1">
+                                        <i class="fas fa-window-close mr-1"></i>Ascender
+                                    </button>`;
+                    }
+                } else {
+                    if (tipo_usuario == 1 && usuario.tipo_usuario != 1 && usuario.tipo_usuario != 3) {
+                        template += `
+                                    <button class="btn btn-danger">
+                                        <i class="fas fa-window-close mr-1"></i>Eliminar
+                                    </button>`;
+                    }
+                }
+                template += `
                         </div>
                     </div>
                 </div>
@@ -48,13 +71,37 @@ $(document).ready(function(){
         });
     }
 
-    $(document).on('keyup','#buscar',function(){
-        let valor=$(this).val();
-        if(valor!=''){
+    $(document).on('keyup', '#buscar', function () {
+        let valor = $(this).val();
+        if (valor != '') {
             buscar_datos(valor);
         }
-        else{
+        else {
             buscar_datos();
         }
+    });
+    $('#form-crear').submit(e => {
+        let nombre = $('#nombre').val();
+        let apellido = $('#apellido').val();
+        let edad = $('#edad').val();
+        let dni = $('#dni').val();
+        let pass = $('#pass').val();
+        funcion = 'crear_usuario';
+        $.post('../controlador/UsuarioController.php', { nombre, apellido, edad, dni, pass, funcion }, (response) => {
+            if (response == 'add') {
+                $('#add').hide('slow');
+                $('#add').show(1000);
+                $('#add').hide(4000);
+                $('#form-crear').trigger('reset');
+                buscar_datos();
+            }
+            else {
+                $('#noadd').hide('slow');
+                $('#noadd').show(1000);
+                $('#noadd').hide(4000);
+                $('#form-crear').trigger('reset');
+            }
+        });
+        e.preventDefault();
     });
 });
