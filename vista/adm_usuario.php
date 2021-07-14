@@ -52,7 +52,7 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn bg-gradient-primary">Guardar</button>
+                    <button type="submit" class="btn bg-gradient-primary">Aceptar</button>
                 </div>
                 </form>
             </div>
