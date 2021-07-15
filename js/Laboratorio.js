@@ -24,17 +24,13 @@ $(document).ready(function () {
     function buscar_lab(consulta) {
         funcion = 'buscar';
         $.post('../controlador/LaboratorioController.php', { consulta, funcion }, (response) => {
-            const laboratorios=JSON.parse(response);
-            let template='';
+            const laboratorios = JSON.parse(response);
+            let template = '';
             laboratorios.forEach(laboratorio => {
-                template+=`
-                    <tr labId="${laboratorio.id}">
-                        <td>${laboratorio.nombre}</td>
+                template += `
+                    <tr labId="${laboratorio.id}" labNombre="${laboratorio.nombre}" labAvatar="${laboratorio.avatar}">
                         <td>
-                            <img src="${laboratorio.avatar}" class="img-fluid rounded" alt="icon-laboratorio" width="70" height="70"/>
-                        </td>
-                        <td>
-                            <button class="avatar btn btn-info" title="Cambiar logo de laboratorio">
+                            <button class="avatar btn btn-info" title="Cambiar logo de laboratorio" type="button" data-toggle="modal" data-target="#cambiologo">
                                 <i class="far fa-image"></i> 
                             </button>
                             <button class="editar btn btn-success" title="Editar laboratorio">
@@ -44,12 +40,16 @@ $(document).ready(function () {
                                 <i class="fas fa-trash-alt"></i> 
                             </button>
                         </td>
+                        <td>
+                            <img src="${laboratorio.avatar}" class="img-fluid rounded" alt="icon-laboratorio" width="70" height="70"/>
+                        </td>
+                        <td>${laboratorio.nombre}</td>
                     </tr>
                 `;
             });
             $('#laboratorios').html(template);
         })
-        
+
     }
     $(document).on('keyup', '#buscar-laboratorio', function () {
         let valor = $(this).val();
@@ -60,4 +60,46 @@ $(document).ready(function () {
             buscar_lab();
         }
     });
+    $(document).on('click', '.avatar', (e) => {
+        funcion = 'cambiar_logo';
+        const elemento = $(this)[0].activeElement.parentElement.parentElement;
+        const id = $(elemento).attr('labId');
+        const nombre = $(elemento).attr('labNombre');
+        const avatar = $(elemento).attr('labAvatar');
+        $('#logoactual').attr('src', avatar);
+        $('#nombre_logo').html(nombre);
+        $('#funcion').val(funcion);
+        $('#id_logo_lab').val(id);
+    });
+
+    $('#form-logo').submit(e => {
+        let formData = new FormData($('#form-logo')[0]);
+        $.ajax({
+            url: '../controlador/LaboratorioController.php',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false
+        }).done(function (response) {
+            const json = JSON.parse(response);
+            if (json.alert == 'edit') {
+                $('#logoactual').attr('src', json.ruta);
+                $('#edit').hide('slow');
+                $('#edit').show(1000);
+                $('#edit').hide(4000);
+                $('#form-logo').trigger('reset');
+                buscar_lab();
+            }
+            else {
+                $('#noedit').hide('slow');
+                $('#noedit').show(1000);
+                $('#noedit').hide(4000);
+                $('#form-logo').trigger('reset');
+            }
+
+
+        });
+        e.preventDefault();
+    })
 });
