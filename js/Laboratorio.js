@@ -101,5 +101,63 @@ $(document).ready(function () {
 
         });
         e.preventDefault();
-    })
+    });
+
+    $(document).on('click', '.borrar', (e) => {
+        funcion = 'borrar';
+        const elemento = $(this)[0].activeElement.parentElement.parentElement;
+        const id = $(elemento).attr('labId');
+        const nombre = $(elemento).attr('labNombre');
+        const avatar = $(elemento).attr('labAvatar');
+
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn btn-success',
+              cancelButton: 'btn btn-danger mr-1'
+            },
+            buttonsStyling: false
+          })
+          
+          swalWithBootstrapButtons.fire({
+            title: 'Desea aliminar '+nombre+'?',
+            text: "No podrá revertir acción!",
+            imageUrl:''+avatar+'',
+            imageWidth:100,
+            imageHeight:100,
+            showCancelButton: true,
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'No, cancelar',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+                console.log('hola')
+                $.post('../controlador/LaboratorioController.php',{id,funcion},(response)=>{
+                    if(response=='borrado'){
+                        swalWithBootstrapButtons.fire(
+                            'Borrado!',
+                            'El laboratorio '+nombre+' fue borrado',
+                            'success'
+                          )
+                          buscar_lab();
+                    }
+                    else{
+                        swalWithBootstrapButtons.fire(
+                            'No se pudo borrar!',
+                            'El laboratorio '+nombre+' no fue borrado porque esta siendo usado en un producto',
+                            'error'
+                          )
+                    }
+                });
+              
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              swalWithBootstrapButtons.fire(
+                'Cancelado',
+                'El laboratorio '+ nombre+' no fue borrado',
+                'error'
+              )
+            }
+          })
+        
+    });
 });

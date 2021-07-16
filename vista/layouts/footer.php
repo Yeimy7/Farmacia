@@ -16,5 +16,8 @@
 <script src="../js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../js/demo.js"></script>
+<!-- sweetAlert2-->
+<script src="../js/sweetalert2.js"></script>
+
 </body>
 </html>
