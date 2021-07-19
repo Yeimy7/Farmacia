@@ -70,6 +70,13 @@
             $query->execute(array(':nombre'=>$nombre,':id'=>$id_editado));
             echo 'edit';
         }
+        function rellenar_laboratorios(){
+            $sql="SELECT * FROM laboratorio order by nombre asc";
+            $query=$this->acceso->prepare($sql);
+            $query->execute();
+            $this->objetos=$query->fetchall();
+            return $this->objetos;
+        }
     }
     
 
