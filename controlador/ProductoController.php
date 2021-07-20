@@ -74,7 +74,10 @@ if($_POST['funcion']=='cambiar_avatar'){
         $jsonstring=json_encode($json[0]);
         echo $jsonstring;
     }
-    
+}
+if($_POST['funcion']=='borrar'){
+    $id=$_POST['id'];
+    $producto->borrar($id);
 }
 
 ?>

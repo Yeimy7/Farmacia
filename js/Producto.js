@@ -75,12 +75,19 @@ $(document).ready(function () {
                 $('#form-crear-producto').trigger('reset');
                 buscar_producto();
             }
-            else{
+            if (response == 'noadd'){
                 $('#noadd').hide('slow');
                 $('#noadd').show(1000);
                 $('#noadd').hide(4000);
                 $('#form-crear-producto').trigger('reset');
             }
+            if (response == 'noedit'){
+                $('#noadd').hide('slow');
+                $('#noadd').show(1000);
+                $('#noadd').hide(4000);
+                $('#form-crear-producto').trigger('reset');
+            }
+            edit=false;
         });
 
         e.preventDefault();
@@ -208,5 +215,62 @@ $(document).ready(function () {
         $('#tipo').val(tipo).trigger('change');
         $('#presentacion').val(presentacion).trigger('change');
         edit = true;
+    });
+    $(document).on('click', '.borrar', (e) => {
+        funcion = 'borrar';
+        const elemento = $(this)[0].activeElement.parentElement.parentElement.parentElement.parentElement;
+        const id = $(elemento).attr('prodId');
+        const nombre = $(elemento).attr('prodNombre');
+        const avatar = $(elemento).attr('prodAvatar');
+
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger mr-1'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Desea aliminar ' + nombre + '?',
+            text: "No podrá revertir acción!",
+            imageUrl: '' + avatar + '',
+            imageWidth: 100,
+            imageHeight: 100,
+            showCancelButton: true,
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'No, cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('../controlador/ProductoController.php', { id, funcion }, (response) => {
+                    edit = false;
+                    if (response == 'borrado') {
+                        swalWithBootstrapButtons.fire(
+                            'Borrado!',
+                            'El Producto ' + nombre + ' fue borrado',
+                            'success'
+                        )
+                        buscar_producto();
+                    }
+                    else {
+                        swalWithBootstrapButtons.fire(
+                            'No se pudo borrar!',
+                            'El Producto ' + nombre + ' no fue borrado porque esta siendo usado en un lote',
+                            'error'
+                        )
+                    }
+                });
+
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'El Producto ' + nombre + ' no fue borrado',
+                    'error'
+                )
+            }
+        })
+
     });
 });

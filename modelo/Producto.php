@@ -68,8 +68,20 @@
         {
             $sql= "UPDATE producto SET avatar=:nombre where id_producto=:id";
             $query=$this->acceso->prepare($sql);
-            $query->execute(array(':id'=>$id, ':nombre'=>$nombre));
-            return $this->objetos;       
+            $query->execute(array(':id'=>$id, ':nombre'=>$nombre));      
+            return $this->objetos; 
+        }
+        function borrar($id){
+            $sql= "DELETE from producto where id_producto=:id";
+            $query=$this->acceso->prepare($sql);
+            $query->execute(array(':id'=>$id));
+            if(!empty($query->execute(array(':id'=>$id)))){
+                echo 'borrado';
+            }
+            else{
+                echo 'noborrado';
+            }
+
         }
         
     }
