@@ -11,6 +11,48 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
     include_once 'layouts/nav.php';
     ?>
 
+<div class="modal fade" id="cambiologo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cambiar logo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <img id="logoactual" src="../img/prov/prov_default.jpg" alt="administrador-photo" class="profile-user-img img-fluid img-circle">
+                    </div>
+                    <div class="text-center">
+                        <b id="nombre_logo">
+                        </b>
+                    </div>
+                    <div class="alert alert-success text-center" id="edit-prov" style="display: none;">
+                        <span><i class="fas fa-check m-1"></i>Se cambió el logo</span>
+                    </div>
+                    <div class="alert alert-danger text-center" id="noedit-prov" style="display: none;">
+                        <span><i class="fas fa-times m-1"></i>Formato no soportado</span>
+                    </div>
+                    <form id="form-logo" enctype="multipart/form-data">
+                        <div class="input-group mb-3 ml-5 mt-2">
+                            <input type="file" name="photo" class="input-group">
+                            <input type="hidden" name="funcion" id="funcion">
+                            <input type="hidden" name="id_logo_prov" id="id_logo_prov">
+
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn bg-gradient-primary">Guardar</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" id="crearproveedor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
