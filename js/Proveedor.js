@@ -1,36 +1,36 @@
 $(document).ready(function () {
-    var funcion;
-    buscar_prov();
-    $('#form-crear').submit(e => {
-        let nombre = $('#nombre').val();
-        let telefono = $('#telefono').val();
-        let correo = $('#correo').val();
-        let direccion = $('#direccion').val();
-        funcion = 'crear';
-        $.post('../controlador/ProveedorController.php', { nombre, telefono, correo, direccion, funcion }, (response) => {
-            if (response == 'add') {
-                $('#add-prov').hide('slow');
-                $('#add-prov').show(1000);
-                $('#add-prov').hide(4000);
-                $('#form-crear').trigger('reset');
-            }
-            if (response == 'noadd') {
-                $('#noadd-prov').hide('slow');
-                $('#noadd-prov').show(1000);
-                $('#noadd-prov').hide(4000);
-                $('#form-crear').trigger('reset');
-            }
-        });
-        e.preventDefault();
+  var funcion;
+  buscar_prov();
+  $('#form-crear').submit(e => {
+    let nombre = $('#nombre').val();
+    let telefono = $('#telefono').val();
+    let correo = $('#correo').val();
+    let direccion = $('#direccion').val();
+    funcion = 'crear';
+    $.post('../controlador/ProveedorController.php', { nombre, telefono, correo, direccion, funcion }, (response) => {
+      if (response == 'add') {
+        $('#add-prov').hide('slow');
+        $('#add-prov').show(1000);
+        $('#add-prov').hide(4000);
+        $('#form-crear').trigger('reset');
+      }
+      if (response == 'noadd') {
+        $('#noadd-prov').hide('slow');
+        $('#noadd-prov').show(1000);
+        $('#noadd-prov').hide(4000);
+        $('#form-crear').trigger('reset');
+      }
     });
+    e.preventDefault();
+  });
 
-    function buscar_prov(consulta){
-        funcion='buscar';
-        $.post('../controlador/ProveedorController.php',{consulta,funcion},(response)=>{
-            const proveedores=JSON.parse(response);
-            let template='';
-            proveedores.forEach(proveedor => {
-                template+=`
+  function buscar_prov(consulta) {
+    funcion = 'buscar';
+    $.post('../controlador/ProveedorController.php', { consulta, funcion }, (response) => {
+      const proveedores = JSON.parse(response);
+      let template = '';
+      proveedores.forEach(proveedor => {
+        template += `
                 <div provId="${proveedor.id}" provNombre="${proveedor.nombre}" provTelefono="${proveedor.telefono}" provCorreo="${proveedor.correo}" provADireccion="${proveedor.direccion}" provAvatar="${proveedor.avatar}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
                 <div class="card bg-light">
                 <div class="card-header text-muted border-bottom-0">
@@ -67,57 +67,115 @@ $(document).ready(function () {
           </div>
         </div>
                 `;
-            });
-            $('#proveedores').html(template);
-        })
+      });
+      $('#proveedores').html(template);
+    })
+  }
+  $(document).on('keyup', '#buscar_proveedor', function () {
+    let valor = $(this).val();
+    if (valor != '') {
+      buscar_prov(valor);
     }
-    $(document).on('keyup','#buscar_proveedor',function(){
-        let valor=$(this).val();
-        if(valor!=''){
-            buscar_prov(valor);
-        }
-        else{
+    else {
+      buscar_prov();
+    }
+  });
+  $(document).on('click', '.avatar', (e) => {
+    funcion = 'cambiar_logo';
+    const elemento = $(this)[0].activeElement.parentElement.parentElement.parentElement.parentElement;
+    const id = $(elemento).attr('provId');
+    const nombre = $(elemento).attr('provNombre');
+    const avatar = $(elemento).attr('provAvatar');
+    $('#logoactual').attr('src', avatar);
+    $('#nombre_logo').html(nombre);
+    $('#id_logo_prov').val(id);
+    $('#funcion').val(funcion);
+    $('#avatar').val(avatar);
+  });
+  $('#form-logo').submit(e => {
+    let formData = new FormData($('#form-logo')[0]);
+    $.ajax({
+      url: '../controlador/ProveedorController.php',
+      type: 'POST',
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false
+    }).done(function (response) {
+      const json = JSON.parse(response);
+      if (json.alert == 'edit') {
+        $('#logoactual').attr('src', json.ruta);
+        $('#edit-prov').hide('slow');
+        $('#edit-prov').show(1000);
+        $('#edit-prov').hide(4000);
+        $('#form-logo').trigger('reset');
+        buscar_prov();
+      }
+      else {
+        $('#noedit-prov').hide('slow');
+        $('#noedit-prov').show(1000);
+        $('#noedit-prov').hide(4000);
+        $('#form-logo').trigger('reset');
+      }
+    });
+    e.preventDefault();
+  });
+
+  $(document).on('click', '.borrar', (e) => {
+    funcion = 'borrar';
+    const elemento = $(this)[0].activeElement.parentElement.parentElement.parentElement.parentElement;
+    const id = $(elemento).attr('provId');
+    const nombre = $(elemento).attr('provNombre');
+    const avatar = $(elemento).attr('provAvatar');
+
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger mr-1'
+      },
+      buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: 'Desea aliminar ' + nombre + '?',
+      text: "No podrá revertir acción!",
+      imageUrl: '' + avatar + '',
+      imageWidth: 100,
+      imageHeight: 100,
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'No, cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.post('../controlador/ProveedorController.php', { id, funcion }, (response) => {
+
+          if (response == 'borrado') {
+            swalWithBootstrapButtons.fire(
+              'Borrado!',
+              'El Proveedor ' + nombre + ' fue borrado',
+              'success'
+            )
             buscar_prov();
-        }
-    });
-    $(document).on('click','.avatar',(e)=>{
-        funcion='cambiar_logo';
-        const elemento=$(this)[0].activeElement.parentElement.parentElement.parentElement.parentElement;
-        const id=$(elemento).attr('provId');
-        const nombre=$(elemento).attr('provNombre');
-        const avatar=$(elemento).attr('provAvatar');
-        $('#logoactual').attr('src',avatar);
-        $('#nombre_logo').html(nombre);
-        $('#id_logo_prov').val(id);
-        $('#funcion').val(funcion);
-        $('#avatar').val(avatar);
-    });
-    $('#form-logo').submit(e => {
-      let formData = new FormData($('#form-logo')[0]);
-      $.ajax({
-          url: '../controlador/ProveedorController.php',
-          type: 'POST',
-          data: formData,
-          cache: false,
-          processData: false,
-          contentType: false
-      }).done(function (response) {
-          const json = JSON.parse(response);
-          if (json.alert == 'edit') {
-              $('#logoactual').attr('src', json.ruta);
-              $('#edit-prov').hide('slow');
-              $('#edit-prov').show(1000);
-              $('#edit-prov').hide(4000);
-              $('#form-logo').trigger('reset');
-              buscar_prov();
           }
           else {
-              $('#noedit-prov').hide('slow');
-              $('#noedit-prov').show(1000);
-              $('#noedit-prov').hide(4000);
-              $('#form-logo').trigger('reset');
+            swalWithBootstrapButtons.fire(
+              'No se pudo borrar!',
+              'El Proveedor ' + nombre + ' no fue borrado porque esta siendo usado en un lote',
+              'error'
+            )
           }
-      });
-      e.preventDefault();
+        });
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire(
+          'Cancelado',
+          'El Proveedor ' + nombre + ' no fue borrado',
+          'error'
+        )
+      }
+    })
+
   });
 });

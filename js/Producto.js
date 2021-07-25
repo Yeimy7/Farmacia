@@ -219,9 +219,9 @@ $(document).ready(function () {
     $(document).on('click', '.borrar', (e) => {
         funcion = 'borrar';
         const elemento = $(this)[0].activeElement.parentElement.parentElement.parentElement.parentElement;
-        const id = $(elemento).attr('provId');
-        const nombre = $(elemento).attr('provNombre');
-        const avatar = $(elemento).attr('provAvatar');
+        const id = $(elemento).attr('prodId');
+        const nombre = $(elemento).attr('prodNombre');
+        const avatar = $(elemento).attr('prodAvatar');
 
 
         const swalWithBootstrapButtons = Swal.mixin({
@@ -244,20 +244,20 @@ $(document).ready(function () {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                $.post('../controlador/ProveedorController.php', { id, funcion }, (response) => {
-
+                $.post('../controlador/ProductoController.php', { id, funcion }, (response) => {
+                    edit = false;
                     if (response == 'borrado') {
                         swalWithBootstrapButtons.fire(
                             'Borrado!',
-                            'El Proveedor ' + nombre + ' fue borrado',
+                            'El Producto ' + nombre + ' fue borrado',
                             'success'
                         )
-                        buscar_prov();
+                        buscar_producto();
                     }
                     else {
                         swalWithBootstrapButtons.fire(
                             'No se pudo borrar!',
-                            'El Proveedor ' + nombre + ' no fue borrado porque esta siendo usado en un lote',
+                            'El Producto ' + nombre + ' no fue borrado porque esta siendo usado en un lote',
                             'error'
                         )
                     }
@@ -266,7 +266,7 @@ $(document).ready(function () {
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 swalWithBootstrapButtons.fire(
                     'Cancelado',
-                    'El Proveedor ' + nombre + ' no fue borrado',
+                    'El Producto ' + nombre + ' no fue borrado',
                     'error'
                 )
             }
