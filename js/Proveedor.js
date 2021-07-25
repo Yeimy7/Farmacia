@@ -90,7 +90,34 @@ $(document).ready(function () {
         $('#nombre_logo').html(nombre);
         $('#id_logo_prov').val(id);
         $('#funcion').val(funcion);
-
-
+        $('#avatar').val(avatar);
     });
+    $('#form-logo').submit(e => {
+      let formData = new FormData($('#form-logo')[0]);
+      $.ajax({
+          url: '../controlador/ProveedorController.php',
+          type: 'POST',
+          data: formData,
+          cache: false,
+          processData: false,
+          contentType: false
+      }).done(function (response) {
+          const json = JSON.parse(response);
+          if (json.alert == 'edit') {
+              $('#logoactual').attr('src', json.ruta);
+              $('#edit-prov').hide('slow');
+              $('#edit-prov').show(1000);
+              $('#edit-prov').hide(4000);
+              $('#form-logo').trigger('reset');
+              buscar_prov();
+          }
+          else {
+              $('#noedit-prov').hide('slow');
+              $('#noedit-prov').show(1000);
+              $('#noedit-prov').hide(4000);
+              $('#form-logo').trigger('reset');
+          }
+      });
+      e.preventDefault();
+  });
 });

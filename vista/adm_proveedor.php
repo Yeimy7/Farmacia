@@ -39,7 +39,7 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
                             <input type="file" name="photo" class="input-group">
                             <input type="hidden" name="funcion" id="funcion">
                             <input type="hidden" name="id_logo_prov" id="id_logo_prov">
-
+                            <input type="hidden" name="avatar" id="avatar">
                         </div>
 
                 </div>
