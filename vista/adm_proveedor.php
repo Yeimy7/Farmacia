@@ -70,6 +70,9 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
                         <div class="alert alert-danger text-center" id="noadd-prov" style="display: none;">
                             <span><i class="fas fa-times m-1"></i>El proveedor ya existe</span>
                         </div>
+                        <div class="alert alert-success text-center" id="edit-prove" style="display: none;">
+                            <span><i class="fas fa-check m-1"></i>Se modificó correctamente</span>
+                        </div>
                         <form id="form-crear">
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>

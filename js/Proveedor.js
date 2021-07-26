@@ -1,25 +1,42 @@
 $(document).ready(function () {
-  var funcion;
+  let edit = false;
+  let funcion;
   buscar_prov();
   $('#form-crear').submit(e => {
+    let id = $('#id_edit_prov').val();
     let nombre = $('#nombre').val();
     let telefono = $('#telefono').val();
     let correo = $('#correo').val();
     let direccion = $('#direccion').val();
-    funcion = 'crear';
-    $.post('../controlador/ProveedorController.php', { nombre, telefono, correo, direccion, funcion }, (response) => {
+    if (edit) {
+      funcion = 'editar';
+    }
+    else {
+      funcion = 'crear'
+    }
+    $.post('../controlador/ProveedorController.php', { id, nombre, telefono, correo, direccion, funcion }, (response) => {
+      console.log(response)
       if (response == 'add') {
         $('#add-prov').hide('slow');
         $('#add-prov').show(1000);
         $('#add-prov').hide(4000);
         $('#form-crear').trigger('reset');
+        buscar_prov();
       }
-      if (response == 'noadd') {
+      if (response == 'noadd' || response == 'noedit') {
         $('#noadd-prov').hide('slow');
         $('#noadd-prov').show(1000);
         $('#noadd-prov').hide(4000);
         $('#form-crear').trigger('reset');
       }
+      if (response == 'edit') {
+        $('#edit-prove').hide('slow');
+        $('#edit-prove').show(1000);
+        $('#edit-prove').hide(4000);
+        $('#form-crear').trigger('reset');
+        buscar_prov();
+      }
+      edit = false;
     });
     e.preventDefault();
   });
@@ -31,7 +48,7 @@ $(document).ready(function () {
       let template = '';
       proveedores.forEach(proveedor => {
         template += `
-                <div provId="${proveedor.id}" provNombre="${proveedor.nombre}" provTelefono="${proveedor.telefono}" provCorreo="${proveedor.correo}" provADireccion="${proveedor.direccion}" provAvatar="${proveedor.avatar}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+                <div provId="${proveedor.id}" provNombre="${proveedor.nombre}" provTelefono="${proveedor.telefono}" provCorreo="${proveedor.correo}" provDireccion="${proveedor.direccion}" provAvatar="${proveedor.avatar}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
                 <div class="card bg-light">
                 <div class="card-header text-muted border-bottom-0">
                     <h1 class="badge badge-success">Proveedor</h1>
@@ -56,7 +73,7 @@ $(document).ready(function () {
                 <button  class="avatar btn btn-sm bg-info" title="Editar logo" type="button" data-toggle="modal" data-target="#cambiologo">
                   <i class="fas fa-image"></i>
                 </button>
-                <button  class="editar btn btn-sm btn-success" title="Editar proveedor" type="button" data-toggle="modal" data-target="#crearproducto">
+                <button  class="editar btn btn-sm btn-success" title="Editar proveedor" type="button" data-toggle="modal" data-target="#crearproveedor">
                   <i class="fas fa-pencil-alt"></i>
                 </button>
                 <button  class="borrar btn btn-sm btn-danger" title="Borrar proveedor">
@@ -92,6 +109,20 @@ $(document).ready(function () {
     $('#funcion').val(funcion);
     $('#avatar').val(avatar);
   });
+  $(document).on('click', '.editar', (e) => {
+    const elemento = $(this)[0].activeElement.parentElement.parentElement.parentElement.parentElement;
+    const id = $(elemento).attr('provId');
+    const nombre = $(elemento).attr('provNombre');
+    const direccion = $(elemento).attr('provDireccion');
+    const telefono = $(elemento).attr('provTelefono');
+    const correo = $(elemento).attr('provCorreo');
+    $('#id_edit_prov').val(id);
+    $('#nombre').val(nombre);
+    $('#telefono').val(telefono);
+    $('#direccion').val(direccion);
+    $('#correo').val(correo);
+    edit = true;
+  });
   $('#form-logo').submit(e => {
     let formData = new FormData($('#form-logo')[0]);
     $.ajax({
@@ -103,6 +134,7 @@ $(document).ready(function () {
       contentType: false
     }).done(function (response) {
       const json = JSON.parse(response);
+      console.log(response);
       if (json.alert == 'edit') {
         $('#logoactual').attr('src', json.ruta);
         $('#edit-prov').hide('slow');
@@ -150,7 +182,7 @@ $(document).ready(function () {
     }).then((result) => {
       if (result.isConfirmed) {
         $.post('../controlador/ProveedorController.php', { id, funcion }, (response) => {
-
+          edit = false;
           if (response == 'borrado') {
             swalWithBootstrapButtons.fire(
               'Borrado!',
@@ -178,4 +210,5 @@ $(document).ready(function () {
     })
 
   });
+
 });

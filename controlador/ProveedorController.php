@@ -9,6 +9,14 @@
         $avatar='prov_default.jpg';
         $proveedor->crear($nombre,$telefono,$correo,$direccion,$avatar);
     }
+    if($_POST['funcion']=='editar'){
+        $id=$_POST['id'];
+        $nombre=$_POST['nombre'];
+        $telefono=$_POST['telefono'];
+        $correo=$_POST['correo'];
+        $direccion=$_POST['direccion'];
+        $proveedor->editar($id,$nombre,$telefono,$correo,$direccion);
+    }
     if($_POST['funcion']=='buscar'){
         $proveedor->buscar();
         $json=array();
@@ -32,7 +40,7 @@
             $nombre=uniqid().'-'.$_FILES['photo']['name'];
             $ruta='../img/prov/'.$nombre;
             move_uploaded_file($_FILES['photo']['tmp_name'],$ruta);
-            $producto->cambiar_logo($id,$nombre);
+            $proveedor->cambiar_logo($id,$nombre);
             if($avatar!='../img/prov/prov_default.jpg'){
                 unlink($avatar);
             }
