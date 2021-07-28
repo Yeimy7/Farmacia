@@ -74,6 +74,13 @@
                 echo 'edit';
             }
         }
+        function rellenar_proveedores(){
+            $sql="SELECT * FROM proveedor order by nombre asc";
+            $query=$this->acceso->prepare($sql);
+            $query->execute();
+            $this->objetos=$query->fetchall();
+            return $this->objetos;
+        }
         
     }
 

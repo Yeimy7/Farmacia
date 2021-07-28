@@ -15,7 +15,6 @@ $(document).ready(function () {
       funcion = 'crear'
     }
     $.post('../controlador/ProveedorController.php', { id, nombre, telefono, correo, direccion, funcion }, (response) => {
-      console.log(response)
       if (response == 'add') {
         $('#add-prov').hide('slow');
         $('#add-prov').show(1000);
@@ -134,7 +133,6 @@ $(document).ready(function () {
       contentType: false
     }).done(function (response) {
       const json = JSON.parse(response);
-      console.log(response);
       if (json.alert == 'edit') {
         $('#logoactual').attr('src', json.ruta);
         $('#edit-prov').hide('slow');
