@@ -186,7 +186,7 @@ $(document).ready(function () {
         const id = $(elemento).attr('prodId');
         const nombre = $(elemento).attr('prodNombre');
         $('#id_lote_prod').val(id);
-        $('#nombre_producto_Lote').html(nombre);
+        $('#nombre_producto_lote').html(nombre);
     });
     $('#form-logo').submit(e => {
         let formData = new FormData($('#form-logo')[0]);

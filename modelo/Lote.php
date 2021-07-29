@@ -44,6 +44,23 @@
             }
             
         }
+        function editar($id, $stock){
+            $sql="UPDATE lote SET stock=:stock where id_lote=:id";
+            $query=$this->acceso->prepare($sql);
+            $query->execute(array(':stock'=>$stock,':id'=>$id));
+            echo 'edit';
+        }
+        function borrar($id){
+            $sql= "DELETE from lote where id_lote=:id";
+            $query=$this->acceso->prepare($sql);
+            $query->execute(array(':id'=>$id));
+            if(!empty($query->execute(array(':id'=>$id)))){
+                echo 'borrado';
+            }
+            else{
+                echo 'noborrado';
+            }
 
+        }
     }
 ?>

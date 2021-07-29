@@ -26,7 +26,7 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
                         </div>
                         <form id="form-crear-lote">
                         <div class="form-group">
-                                <label for="nombre_producto_lote">Producto</label>
+                                <label for="nombre_producto_lote">Producto: </label>
                                 <label id="nombre_producto_lote">Nombre de Producto</label>
                             </div>
                             <div class="form-group">
