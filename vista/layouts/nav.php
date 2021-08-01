@@ -1,4 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/main.css">
 <!-- Select2 -->
 <link rel="stylesheet" href="../css/select2.css">
 <!-- SweetAlert2 -->
@@ -34,7 +35,7 @@
             
           </img>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <table class="table table-hover text-nowrap p-0">
+            <table class="carro table table-hover text-nowrap p-0">
               <thead class="table-success">
                 <tr>
                   <th>Codigo</th>
@@ -50,7 +51,7 @@
               </tbody>
             </table>
             <a href="#" class="btn btn-danger btn-block">Procesar Compra</a>
-            <a href="#" class="btn btn-primary btn-block">Vaciar Carrito</a>
+            <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Carrito</a>
 
           </ul>
         </li>
