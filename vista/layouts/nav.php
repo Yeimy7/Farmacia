@@ -31,8 +31,8 @@
           <a href="#" class="nav-link">Contact</a>
         </li>
         <li class="nav-item dropdown" id="cat-carrito" style="display:none">
-          <img src="../img/carrito.png" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-            
+          <img src="../img/carrito.png" class="imagen-carrito nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+            <span id="contador" class="contador badge badge-danger"></span>
           </img>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <table class="carro table table-hover text-nowrap p-0">
