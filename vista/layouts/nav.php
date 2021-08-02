@@ -1,4 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/compra.css">
 <link rel="stylesheet" href="../css/main.css">
 <!-- Select2 -->
 <link rel="stylesheet" href="../css/select2.css">
@@ -50,7 +51,7 @@
 
               </tbody>
             </table>
-            <a href="#" class="btn btn-danger btn-block">Procesar Compra</a>
+            <a href="#" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Compra</a>
             <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Carrito</a>
 
           </ul>
