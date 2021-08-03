@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    CalcularTotal();
     RecuperarLS_carrito();
     Contar_productos();
     RecuperarLS_carrito_compra();
@@ -65,6 +66,7 @@ $(document).ready(function () {
         elemento.remove();
         Eliminar_productoLS(id);
         Contar_productos();
+        CalcularTotal();
 
     });
     $(document).on('click', '#vaciar-carrito', (e) => {
@@ -162,10 +164,10 @@ $(document).ready(function () {
                 let template_compra = '';
                 let json = JSON.parse(response);
                 template_compra = `
-                <tr prodId="${producto.id}">
+                <tr prodId="${producto.id}" prodPrecio="${json.precio}">
                     <td>${json.nombre}</td>
                     <td>${json.stock}</td>
-                    <td>${json.precio}</td>
+                    <td class="precio">${json.precio}</td>
                     <td>${json.concentracion}</td>
                     <td>${json.adicional}</td>
                     <td>${json.laboratorio}</td>
@@ -184,21 +186,57 @@ $(document).ready(function () {
 
             });
         });
-       
+
     }
+    $(document).on('click', '#actualizar', (e) => {
+        let productos, precios;
+        precios = document.querySelectorAll('.precio');
+        productos = recuperarLS();
+        productos.forEach(function (producto, indice) {
+            producto.precio = precios[indice].textContent;
+        });
+        localStorage.setItem('productos', JSON.stringify(productos));
+        CalcularTotal();
+    })
     $('#cp').keyup((e) => {
-        let id, cantidad, producto, productos, montos;
+        let id, cantidad, producto, productos, montos, precio;
         producto = $(this)[0].activeElement.parentElement.parentElement;
         id = $(producto).attr('prodId');
+        precio = $(producto).attr('prodPrecio');
         cantidad = producto.querySelector('input').value;
         montos = document.querySelectorAll('.subtotales');
         productos = recuperarLS();
         productos.forEach(function (prod, indice) {
             if (prod.id === id) {
                 prod.cantidad = cantidad;
-                montos[indice].innerHTML = `<h5>${cantidad * productos[indice].precio}</h5>`;
+                prod.precio = precio;
+                montos[indice].innerHTML = `<h5>${cantidad * precio}</h5>`;
             }
         });
         localStorage.setItem('productos', JSON.stringify(productos));
+        CalcularTotal();
     });
+    function CalcularTotal() {
+        let productos, subtotal, con_igv, total_sin_descuento, pago, vuelto, descuento;
+        let total = 0, igv = 0.13;
+        productos = recuperarLS();
+        productos.forEach(producto => {
+            let subtotal_producto = Number(producto.precio * producto.cantidad);
+            total = total + subtotal_producto;
+        });
+        pago = $('#pago').val();
+        descuento = $('#descuento').val();
+
+        total_sin_descuento = total.toFixed(2);
+        con_igv = parseFloat(total * igv).toFixed(2);
+        subtotal = parseFloat(total - con_igv).toFixed(2);
+        total = total - descuento;
+        vuelto = pago - total;
+        $('#subtotal').html(subtotal);
+        $('#con_igv').html(con_igv);
+        $('#total_sin_descuento').html(total_sin_descuento);
+        $('#total').html(total.toFixed(2));
+        $('#vuelto').html(vuelto.toFixed(2));
+
+    }
 });
