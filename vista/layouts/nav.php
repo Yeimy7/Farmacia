@@ -1,4 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/datatables.css">
 <link rel="stylesheet" href="../css/compra.css">
 <link rel="stylesheet" href="../css/main.css">
 <!-- Select2 -->
@@ -33,7 +34,7 @@
         </li>
         <li class="nav-item dropdown" id="cat-carrito" style="display:none">
           <img src="../img/carrito.png" class="imagen-carrito nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
-            <span id="contador" class="contador badge badge-danger"></span>
+          <span id="contador" class="contador badge badge-danger"></span>
           </img>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <table class="carro table table-hover text-nowrap p-0">
@@ -112,7 +113,15 @@
                 </p>
               </a>
             </li>
-
+            <li class="nav-header">Ventas</li>
+            <li class="nav-item">
+              <a href="adm_venta.php" class="nav-link">
+                <i class="nav-icon fas fa-notes-medical"></i>
+                <p>
+                  Listar Ventas
+                </p>
+              </a>
+            </li>
             <li class="nav-header">Almacen</li>
             <li class="nav-item">
               <a href="adm_producto.php" class="nav-link">
