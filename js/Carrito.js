@@ -78,6 +78,9 @@ $(document).ready(function () {
     $(document).on('click', '#procesar-pedido', (e) => {
         Procesar_pedido();
     })
+    $(document).on('click', '#procesar-compra', (e) => {
+        Procesar_compra();
+    })
     function recuperarLS() {
         let productos;
         if (localStorage.getItem('productos') === null) {
@@ -238,5 +241,59 @@ $(document).ready(function () {
         $('#total').html(total.toFixed(2));
         $('#vuelto').html(vuelto.toFixed(2));
 
+    }
+    function Procesar_compra() {
+        let nombre, dni;
+        nombre = $('#cliente').val();
+        dni = $('#dni').val();
+        if (recuperarLS().length == 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No hay poductos, seleccione algunos'
+            }).then(function () {
+                location.href = '../vista/adm_catalogo.php';
+            })
+        }
+        else if (nombre == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Necesitamos un nombre de cliente'
+            });
+        }
+        else {
+            Verificar_stock().then(error => {
+                if (error == 0) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'La compra se realizó',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Hay conflicto en el stock de algún producto'
+                    });
+                }
+            });
+        }
+    }
+    async function Verificar_stock() {
+        let productos;
+        let funcion = 'verificar_stock';
+        productos = recuperarLS();
+        const response = await fetch('../controlador/ProductoController.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'funcion=' + funcion + '&&productos=' + JSON.stringify(productos)
+
+        })
+        let error = await response.text();
+        return error;
     }
 });
