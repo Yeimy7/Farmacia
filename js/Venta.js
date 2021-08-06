@@ -1,25 +1,27 @@
 $(document).ready(function () {
-    let funcion = 'listar';
-    let datatable = $('#tabla_venta').DataTable({
-        "ajax": {
-            "url": "../controlador/VentaController.php",
-            "method": "POST",
-            "data": { funcion: funcion }
-        },
-        "columns": [
-            { "data": "id_venta" },
-            { "data": "fecha" },
-            { "data": "cliente" },
-            { "data": "dni" },
-            { "data": "total" },
-            { "data": "vendedor" },
-            {
-                "defaultContent": `<button class="btn btn-secondary"><i class="fas fa-print"></i></button>
+
+        let funcion = 'listar';
+        let datatable = $('#tabla_venta').DataTable({
+            "ajax": {
+                "url": "../controlador/VentaController.php",
+                "method": "POST",
+                "data": { funcion: funcion }
+            },
+            "columns": [
+                { "data": "id_venta" },
+                { "data": "fecha" },
+                { "data": "cliente" },
+                { "data": "dni" },
+                { "data": "total" },
+                { "data": "vendedor" },
+                {
+                    "defaultContent": `<button class="btn btn-secondary"><i class="fas fa-print"></i></button>
                                 <button class="ver btn btn-success" type="button" data-toggle="modal" data-target="#vista_venta"><i class="fas fa-search"></i></button>
                                 <button class="borrar btn btn-danger"><i class="fas fa-window-close"></i></button>`}
-        ],
-        "language": espanol
-    });
+            ],
+            "language": espanol
+        });
+
     $('#tabla_venta tbody').on('click', '.borrar', function () {
         let datos = datatable.row($(this).parents()).data();
         let id = datos.id_venta;
@@ -43,13 +45,23 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('../controlador/DetalleVentaController.php', { funcion, id }, (response) => {
-                    console.log(response);
+                    if (response == 'deleted') {
+                        swalWithBootstrapButtons.fire(
+                            'Borrado!',
+                            'Venta borrada exitosamente.',
+                            'success'
+                        )
+                        datatable.ajax.reload(null,false);
+                    }
+                    else if (response == 'nodelete') {
+                        swalWithBootstrapButtons.fire(
+                            'No eliminado',
+                            'No tiene autorización para eliminar esta venta',
+                            'error'
+                        )
+                    }
                 })
-                swalWithBootstrapButtons.fire(
-                    'Borrado!',
-                    'Venta borrada exitosamente.',
-                    'success'
-                )
+
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
             ) {

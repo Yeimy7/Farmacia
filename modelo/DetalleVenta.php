@@ -1,5 +1,5 @@
 <?php
-    include 'Conexion.php';
+    include_once 'Conexion.php';
     class DetalleVenta{
         var $objetos;
         public function __construct()

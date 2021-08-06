@@ -1,5 +1,5 @@
 <?php
-include 'Conexion.php';
+include_once 'Conexion.php';
 class Venta
 {
     var $objetos;
@@ -48,5 +48,13 @@ class Venta
         } else {
             return 0;
         }
+    }
+    function recuperar_vendedor($id_venta)
+    {
+        $sql = "SELECT us_tipo FROM venta join usuario on id_usuario=vendedor  WHERE id_venta=:id_venta";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id_venta' => $id_venta));
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
     }
 }
