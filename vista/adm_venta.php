@@ -10,7 +10,68 @@ if ($_SESSION['us_tipo'] == 3 || $_SESSION['us_tipo'] == 1) {
     <?php
     include_once 'layouts/nav.php';
     ?>
+    <div class="modal fade" id="vista_venta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Registro de ventas</h3>
+                        <button data-dismiss="modal" aria-label="close" class="close" style="outline:none;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                       <div class="form-group">
+                           <label for="codigo_venta">Código venta: </label>
+                           <span id="codigo_venta"></span>
+                       </div>
+                       <div class="form-group">
+                           <label for="fecha">Fecha: </label>
+                           <span id="fecha"></span>
+                       </div>
+                       <div class="form-group">
+                           <label for="cliente">Cliente: </label>
+                           <span id="cliente"></span>
+                       </div>
+                       <div class="form-group">
+                           <label for="dni">Dni: </label>
+                           <span id="dni"></span>
+                       </div>
+                       <div class="form-group">
+                           <label for="vendedor">Vendedor: </label>
+                           <span id="vendedor"></span>
+                       </div>
+                       <table class="table table-hover text-nowrap">
+                           <thead class="table-success">
+                               <tr>
+                                   <th>Cantidad</th>
+                                   <th>Precio</th>
+                                   <th>Producto</th>
+                                   <th>Concentración</th>
+                                   <th>Adicional</th>
+                                   <th>Laboratorio</th>
+                                   <th>Presentación</th>
+                                   <th>Tipo</th>
+                                   <th>Subtotal</th>
+                               </tr>
+                           </thead>
+                           <tbody id="registros" class="table-warning">
 
+                           </tbody>
+                       </table>
+                        <div class="float-right input-group-append">
+                            <h3 class="m-3">Total: </h3>
+                            <h3 id="total" class="m-3"></h3>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-outline-secondary float-right m-1">Close</button>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -46,10 +107,11 @@ if ($_SESSION['us_tipo'] == 3 || $_SESSION['us_tipo'] == 1) {
                                     <th>DNI</th>
                                     <th>Total</th>
                                     <th>Vendedor</th>
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
+
                             </tbody>
                         </table>
                     </div>
