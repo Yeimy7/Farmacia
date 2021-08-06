@@ -19,5 +19,10 @@
             $this->objetos=$query->fetchall();
             return $this->objetos;
         }
+        function borrar($id_venta){
+            $sql = "DELETE FROM venta_producto where venta_id_venta=:id_venta";
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(':id_venta' => $id_venta));
+        }
     }
 ?>

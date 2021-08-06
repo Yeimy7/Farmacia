@@ -16,11 +16,52 @@ $(document).ready(function () {
             {
                 "defaultContent": `<button class="btn btn-secondary"><i class="fas fa-print"></i></button>
                                 <button class="ver btn btn-success" type="button" data-toggle="modal" data-target="#vista_venta"><i class="fas fa-search"></i></button>
-                                <button class="btn btn-danger"><i class="fas fa-window-close"></i></button>`}
+                                <button class="borrar btn btn-danger"><i class="fas fa-window-close"></i></button>`}
         ],
         "language": espanol
     });
+    $('#tabla_venta tbody').on('click', '.borrar', function () {
+        let datos = datatable.row($(this).parents()).data();
+        let id = datos.id_venta;
+        let funcion = 'borrar_venta';
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success m-1',
+                cancelButton: 'btn btn-danger m-1'
+            },
+            buttonsStyling: false
+        })
 
+        swalWithBootstrapButtons.fire({
+            title: 'Está seguro que desea eliminar la Venta: ' + id + '?',
+            text: "No podrá revertir acción!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, borrar!',
+            cancelButtonText: 'No, cancelar!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('../controlador/DetalleVentaController.php', { funcion, id }, (response) => {
+                    console.log(response);
+                })
+                swalWithBootstrapButtons.fire(
+                    'Borrado!',
+                    'Venta borrada exitosamente.',
+                    'success'
+                )
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'La Venta no se eliminó',
+                    'error'
+                )
+            }
+        })
+
+    });
     $('#tabla_venta tbody').on('click', '.ver', function () {
         let datos = datatable.row($(this).parents()).data();
         let id = datos.id_venta;

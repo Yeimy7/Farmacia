@@ -62,5 +62,10 @@
             }
 
         }
+        function devolver($id_lote,$cantidad, $vencimiento,$producto,$proveedor){
+            $sql = "DELETE FROM venta_producto where venta_id_venta=:id_venta";
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(':id_lote' => $id_lote));
+        }
     }
 ?>
