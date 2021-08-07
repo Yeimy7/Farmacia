@@ -1,26 +1,37 @@
 $(document).ready(function () {
+    mostrar_consultas();
+    function mostrar_consultas() {
+        let funcion = 'mostrar_consultas';
+        $.post('../controlador/VentaController.php', { funcion }, (response) => {
+            const vistas=JSON.parse(response);
+            $('#venta_dia_vendedor').html(Number(vistas.venta_dia_vendedor).toFixed(2));
+            $('#venta_diaria').html(Number(vistas.venta_diaria).toFixed(2));
+            $('#venta_mensual').html(Number(vistas.venta_mensual).toFixed(2));
+            $('#venta_anual').html(Number(vistas.venta_anual).toFixed(2));
 
-        let funcion = 'listar';
-        let datatable = $('#tabla_venta').DataTable({
-            "ajax": {
-                "url": "../controlador/VentaController.php",
-                "method": "POST",
-                "data": { funcion: funcion }
-            },
-            "columns": [
-                { "data": "id_venta" },
-                { "data": "fecha" },
-                { "data": "cliente" },
-                { "data": "dni" },
-                { "data": "total" },
-                { "data": "vendedor" },
-                {
-                    "defaultContent": `<button class="btn btn-secondary"><i class="fas fa-print"></i></button>
+        })
+    }
+    let funcion = 'listar';
+    let datatable = $('#tabla_venta').DataTable({
+        "ajax": {
+            "url": "../controlador/VentaController.php",
+            "method": "POST",
+            "data": { funcion: funcion }
+        },
+        "columns": [
+            { "data": "id_venta" },
+            { "data": "fecha" },
+            { "data": "cliente" },
+            { "data": "dni" },
+            { "data": "total" },
+            { "data": "vendedor" },
+            {
+                "defaultContent": `<button class="btn btn-secondary"><i class="fas fa-print"></i></button>
                                 <button class="ver btn btn-success" type="button" data-toggle="modal" data-target="#vista_venta"><i class="fas fa-search"></i></button>
                                 <button class="borrar btn btn-danger"><i class="fas fa-window-close"></i></button>`}
-            ],
-            "language": espanol
-        });
+        ],
+        "language": espanol
+    });
 
     $('#tabla_venta tbody').on('click', '.borrar', function () {
         let datos = datatable.row($(this).parents()).data();
@@ -51,7 +62,7 @@ $(document).ready(function () {
                             'Venta borrada exitosamente.',
                             'success'
                         )
-                        datatable.ajax.reload(null,false);
+                        datatable.ajax.reload(null, false);
                     }
                     else if (response == 'nodelete') {
                         swalWithBootstrapButtons.fire(
