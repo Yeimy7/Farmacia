@@ -1,4 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../img/doctor.png" type="image/png">
+<link rel="stylesheet" href="../css/animate.min.css">
 <link rel="stylesheet" href="../css/datatables.css">
 <link rel="stylesheet" href="../css/compra.css">
 <link rel="stylesheet" href="../css/main.css">
