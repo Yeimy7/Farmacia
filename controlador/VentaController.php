@@ -48,3 +48,12 @@ if ($_POST['funcion'] == 'venta_mes') {
     $jsonstring = json_encode($json);
     echo $jsonstring;
 }
+if ($_POST['funcion'] == 'vendedor_mes') {
+    $venta->vendedor_mes();
+    $json = array();
+    foreach ($venta->objetos as $objeto) {
+        $json[] = $objeto;
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
