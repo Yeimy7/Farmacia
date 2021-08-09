@@ -26,11 +26,20 @@ $(document).ready(function () {
             { "data": "total" },
             { "data": "vendedor" },
             {
-                "defaultContent": `<button class="btn btn-secondary"><i class="fas fa-print"></i></button>
+                "defaultContent": `<button class="imprimir btn btn-secondary"><i class="fas fa-print"></i></button>
                                 <button class="ver btn btn-success" type="button" data-toggle="modal" data-target="#vista_venta"><i class="fas fa-search"></i></button>
                                 <button class="borrar btn btn-danger"><i class="fas fa-window-close"></i></button>`}
         ],
         "language": espanol
+    });
+    $('#tabla_venta tbody').on('click', '.imprimir', function () {
+        let datos = datatable.row($(this).parents()).data();
+        let id = datos.id_venta;
+        $.post('../controlador/PDFController.php',{id},(response)=>{
+            console.log(response);
+            window.open('../pdf/pdf-'+id+'.pdf','_blank');
+        })
+        
     });
 
     $('#tabla_venta tbody').on('click', '.borrar', function () {
