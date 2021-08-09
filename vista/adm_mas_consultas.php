@@ -51,6 +51,12 @@ if ($_SESSION['us_tipo'] == 3) {
                                 <canvas id="Grafico2" style="min-height:250px; height:250px; max-height:250px;max-width:100%;"></canvas>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <h2>Comparativa de meses con el año anterior</h2>
+                                <div class="chart-responsive">
+                                <canvas id="Grafico3" style="min-height:250px; height:250px; max-height:250px;max-width:100%;"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

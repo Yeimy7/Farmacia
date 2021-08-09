@@ -2,6 +2,174 @@ $(document).ready(function () {
     let funcion;
     venta_mes();
     vendedor_mes();
+    ventas_anual();
+    async function ventas_anual() {
+        funcion = 'ventas_anual';
+        let lista = ['', '', '', '', '', '', '', '', '', '', '', ''];
+        const response = await fetch('../controlador/VentaController.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'funcion=' + funcion
+        }).then(function (response) {
+            return response.json();
+        }).then(function (meses) {
+            meses.forEach(mes => {
+                if (mes.mes == 1) {
+                    lista[0] = mes;
+                }
+                if (mes.mes == 2) {
+                    lista[1] = mes;
+                }
+                if (mes.mes == 3) {
+                    lista[2] = mes;
+                }
+                if (mes.mes == 4) {
+                    lista[3] = mes;
+                }
+                if (mes.mes == 5) {
+                    lista[4] = mes;
+                }
+                if (mes.mes == 6) {
+                    lista[5] = mes;
+                }
+                if (mes.mes == 7) {
+                    lista[6] = mes;
+                }
+                if (mes.mes == 8) {
+                    lista[7] = mes;
+                }
+                if (mes.mes == 9) {
+                    lista[8] = mes;
+                }
+                if (mes.mes == 10) {
+                    lista[9] = mes;
+                }
+                if (mes.mes == 11) {
+                    lista[10] = mes;
+                }
+                if (mes.mes == 12) {
+                    lista[11] = mes;
+                }
+            });
+        });
+
+        funcion = 'venta_mes';
+        let lista1 = ['', '', '', '', '', '', '', '', '', '', '', ''];
+        const response1 = await fetch('../controlador/VentaController.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'funcion=' + funcion
+        }).then(function (response1) {
+            return response1.json();
+        }).then(function (meses) {
+            meses.forEach(mes => {
+                if (mes.mes == 1) {
+                    lista1[0] = mes;
+                }
+                if (mes.mes == 2) {
+                    lista1[1] = mes;
+                }
+                if (mes.mes == 3) {
+                    lista1[2] = mes;
+                }
+                if (mes.mes == 4) {
+                    lista1[3] = mes;
+                }
+                if (mes.mes == 5) {
+                    lista1[4] = mes;
+                }
+                if (mes.mes == 6) {
+                    lista1[5] = mes;
+                }
+                if (mes.mes == 7) {
+                    lista1[6] = mes;
+                }
+                if (mes.mes == 8) {
+                    lista1[7] = mes;
+                }
+                if (mes.mes == 9) {
+                    lista1[8] = mes;
+                }
+                if (mes.mes == 10) {
+                    lista1[9] = mes;
+                }
+                if (mes.mes == 11) {
+                    lista1[10] = mes;
+                }
+                if (mes.mes == 12) {
+                    lista1[11] = mes;
+                }
+            });
+        });
+        let canvasG3 = $('#Grafico3').get(0).getContext('2d');
+        let datos = {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            datasets: [
+                {
+                    label: 'Año Anterior',
+                    backgroundColor: 'rgb(110, 133, 178)',
+                    borderColor: 'rgb(0,0,0)',
+                    pointRadius: false,
+                    pointColor: 'rgb(241, 236, 195)',
+                    pointStrokeColor: 'rgb(81, 94, 99)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgb(189, 75, 75)',
+                    data: [
+                        Number(lista[0].cantidad).toFixed(2),
+                        Number(lista[1].cantidad).toFixed(2),
+                        Number(lista[2].cantidad).toFixed(2),
+                        Number(lista[3].cantidad).toFixed(2), 
+                        Number(lista[4].cantidad).toFixed(2),
+                        Number(lista[5].cantidad).toFixed(2), 
+                        Number(lista[6].cantidad).toFixed(2),
+                        Number(lista[7].cantidad).toFixed(2), 
+                        Number(lista[8].cantidad).toFixed(2),
+                        Number(lista[9].cantidad).toFixed(2), 
+                        Number(lista[10].cantidad).toFixed(2),
+                        Number(lista[11].cantidad).toFixed(2)
+                    ]
+                },
+
+                {
+                    label: 'Año Actual',
+                    backgroundColor: 'rgb(54, 34, 34)',
+                    borderColor: 'rgb(0,0,0)',
+                    pointRadius: false,
+                    pointColor: 'rgb(241, 236, 195)',
+                    pointStrokeColor: 'rgb(81, 94, 99)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgb(189, 75, 75)',
+                    data: [
+                        Number(lista1[0].cantidad).toFixed(2),
+                        Number(lista1[1].cantidad).toFixed(2),
+                        Number(lista1[2].cantidad).toFixed(2),
+                        Number(lista1[3].cantidad).toFixed(2), 
+                        Number(lista1[4].cantidad).toFixed(2),
+                        Number(lista1[5].cantidad).toFixed(2), 
+                        Number(lista1[6].cantidad).toFixed(2),
+                        Number(lista1[7].cantidad).toFixed(2), 
+                        Number(lista1[8].cantidad).toFixed(2),
+                        Number(lista1[9].cantidad).toFixed(2), 
+                        Number(lista1[10].cantidad).toFixed(2),
+                        Number(lista1[11].cantidad).toFixed(2)
+                    ]
+
+                }
+            ]
+        }
+        let opciones = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false
+        }
+        let G3 = new Chart(canvasG3, {
+            type: 'bar',
+            data: datos,
+            options: opciones
+        })
+
+
+    }
     async function vendedor_mes() {
         funcion = 'vendedor_mes';
         let lista = ['', '', ''];
