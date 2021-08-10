@@ -18,8 +18,9 @@ include_once '../modelo/Usuario.php';
         }
     }
     else{
-        $usuario->Loguearse($user,$pass);
-        if(!empty($usuario->objetos)){
+        
+        if(!empty($usuario->Loguearse($user,$pass)=="logueado")){
+            $usuario->obtener_dato_logueo($user);
             foreach ($usuario->objetos as $objeto) {
                 $_SESSION['usuario']=$objeto->id_usuario;
                 $_SESSION['us_tipo']=$objeto->us_tipo;
