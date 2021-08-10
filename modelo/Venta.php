@@ -117,6 +117,20 @@ class Venta
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }
+    function producto_mas_vendido()
+    {
+        $sql = "SELECT nombre,concentracion,adicional , SUM(cantidad) as total FROM `venta`
+        JOIN venta_producto ON id_venta=venta_id_venta
+        JOIN producto ON id_producto=producto_id_producto
+        WHERE year(fecha)=year(curdate())
+        AND month(fecha)=month(curdate())
+        GROUP BY producto_id_producto
+        ORDER BY total desc LIMIT 5;";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
 
     
 }

@@ -3,6 +3,102 @@ $(document).ready(function () {
     venta_mes();
     vendedor_mes();
     ventas_anual();
+    producto_mas_vendido();
+    async function producto_mas_vendido(){
+        funcion = 'producto_mas_vendido';
+        let lista = ['', '', '', '', ''];
+        const response = await fetch('../controlador/VentaController.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'funcion=' + funcion
+        }).then(function (response) {
+            return response.json();
+        }).then(function (productos) {
+            console.log(productos)
+            let i=0;
+            productos.forEach(producto => {
+                lista[i]=producto;
+                i++;
+            });
+        })
+
+        let canvasG4 = $('#Grafico4').get(0).getContext('2d');
+        let datos = {
+            labels: ['Mes actual'],
+            datasets: [
+                {
+                    label: lista[0].nombre+lista[0].concentracion+lista[0].adicional,
+                    backgroundColor: 'rgb(87, 131, 123)',
+                    borderColor: 'rgb(0,0,0)',
+                    pointRadius: false,
+                    pointColor: 'rgb(241, 236, 195)',
+                    pointStrokeColor: 'rgb(81, 94, 99)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgb(189, 75, 75)',
+                    data: [Number(lista[0].total).toFixed(2)]
+                },
+                {
+                    label: lista[1].nombre+lista[1].concentracion+lista[1].adicional,
+                    backgroundColor: 'rgb(201, 216, 182)',
+                    borderColor: 'rgb(0,0,0)',
+                    pointRadius: false,
+                    pointColor: 'rgb(241, 236, 195)',
+                    pointStrokeColor: 'rgb(81, 94, 99)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgb(189, 75, 75)',
+                    data: [Number(lista[1].total).toFixed(2)]
+
+                },
+                {
+                    label: lista[2].nombre+lista[2].concentracion+lista[2].adicional,
+                    backgroundColor: 'rgb(241, 236, 195)',
+                    borderColor: 'rgb(0,0,0)',
+                    pointRadius: false,
+                    pointColor: 'rgb(241, 236, 195)',
+                    pointStrokeColor: 'rgb(81, 94, 99)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgb(189, 75, 75)',
+                    data: [Number(lista[2].total).toFixed(2)]
+
+                },
+                {
+                    label: lista[3].nombre+lista[3].concentracion+lista[3].adicional,
+                    backgroundColor: 'rgb(144, 127, 164)',
+                    borderColor: 'rgb(0,0,0)',
+                    pointRadius: false,
+                    pointColor: 'rgb(241, 236, 195)',
+                    pointStrokeColor: 'rgb(81, 94, 99)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgb(189, 75, 75)',
+                    data: [Number(lista[3].total).toFixed(2)]
+
+                },
+                {
+                    label: lista[4].nombre+lista[4].concentracion+lista[4].adicional,
+                    backgroundColor: 'rgb(166, 214, 214)',
+                    borderColor: 'rgb(0,0,0)',
+                    pointRadius: false,
+                    pointColor: 'rgb(241, 236, 195)',
+                    pointStrokeColor: 'rgb(81, 94, 99)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgb(189, 75, 75)',
+                    data: [Number(lista[4].total).toFixed(2)]
+
+                }
+            ]
+        }
+        let opciones = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false
+        }
+        let G4 = new Chart(canvasG4, {
+            type: 'bar',
+            data: datos,
+            options: opciones
+        })
+
+    }
     async function ventas_anual() {
         funcion = 'ventas_anual';
         let lista = ['', '', '', '', '', '', '', '', '', '', '', ''];

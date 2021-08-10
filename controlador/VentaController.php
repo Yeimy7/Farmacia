@@ -66,3 +66,12 @@ if ($_POST['funcion'] == 'ventas_anual') {
     $jsonstring = json_encode($json);
     echo $jsonstring;
 }
+if ($_POST['funcion'] == 'producto_mas_vendido') {
+    $venta->producto_mas_vendido();
+    $json = array();
+    foreach ($venta->objetos as $objeto) {
+        $json[] = $objeto;
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
