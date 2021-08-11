@@ -225,4 +225,27 @@ class Usuario
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }
+    function verificar($email, $dni)
+    {
+        $sql = "SELECT * FROM usuario where correo_us=:email AND dni_us=:dni";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':email' => $email, ':dni' => $dni));
+        $this->objetos = $query->fetchall();
+        if (!empty($this->objetos)) {
+            if ($query->rowCount() == 1) {
+                echo 'encontrado';
+            } else {
+                echo 'noencontrado';
+            }
+        } else {
+            echo 'noencontrado';
+        }
+    }
+    function reemplazar($codigo, $email, $dni)
+    {
+        $sql = "UPDATE usuario SET contrasena_us=:codigo where correo_us=:email AND dni_us=:dni";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':codigo' => $codigo, ':email' => $email,':dni'=>$dni));
+        echo 'reemplazado';
+    }
 }

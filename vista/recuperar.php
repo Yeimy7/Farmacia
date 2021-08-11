@@ -24,7 +24,7 @@
         
       <span id="aviso1" class="text-success text-bold">texto</span>
       <span id="aviso" class="text-danger text-bold">texto</span>
-      <form action="" method="post">
+      <form id="form-recuperar" action="" method="post">
         <div class="input-group mb-3">
           <input id="dni_recuperar" type="text" class="form-control" placeholder="DNI">
           <div class="input-group-append">
