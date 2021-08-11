@@ -48,6 +48,7 @@ else{
                         <input type="password" name="pass" id="" class="input">
                     </div>
                 </div>
+                <a href="vista/recuperar.php"> Recuperar password </a>
                 <a href=""> Created Warpiece </a>
                 <input type="submit" value="Iniciar Sesión" class="btn">
             </form>
