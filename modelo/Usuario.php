@@ -246,6 +246,6 @@ class Usuario
         $sql = "UPDATE usuario SET contrasena_us=:codigo where correo_us=:email AND dni_us=:dni";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':codigo' => $codigo, ':email' => $email,':dni'=>$dni));
-        echo 'reemplazado';
+    //    echo 'reemplazado';
     }
 }

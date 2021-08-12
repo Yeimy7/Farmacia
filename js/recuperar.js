@@ -18,7 +18,8 @@ $(document).ready(function () {
                     $.post('../controlador/recuperar.php', { funcion, email, dni }, (response2) => {
                         $('#aviso1').hide();
                         $('#aviso').hide();
-                        if (response2 == 'reemplazado') {
+                        console.log(response2);
+                        if (response2 == 'enviado') {
                             $('#aviso1').show();
                             $('#aviso1').text('Se reestableció la contraseña');
                             $('#form-recuperar').trigger('reset');
