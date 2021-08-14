@@ -311,10 +311,63 @@ $(document).ready(function () {
         e.preventDefault();
     });
     $(document).on('click','#button-reporte',(e)=>{
+        Mostrar_loader("generarReportePDF");
        funcion='reporte_productos'; 
         $.post('../controlador/ProductoController.php',{funcion},(response)=>{
             console.log(response);
-            window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
+            if(response==""){
+                Cerrar_loader("exito_reporte");
+                window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
+            }
+            else{
+                Cerrar_loader("error_reporte");
+            }
         });
     });
+
+    function Mostrar_loader(mensaje) {
+        let texto = null;
+        let mostrar = false;
+        switch (mensaje) {
+            case 'generarReportePDF':
+                texto = 'Se esta generando el reporte en formato PDF, por favor espere...';
+                mostrar = true;
+                break;
+        }
+        if (mostrar) {
+            Swal.fire({
+                title: 'Generando reporte',
+                text: texto,
+                showConfirmButton: false
+            })
+        }
+    }
+    function Cerrar_loader(mensaje) {
+        let tipo = null;
+        let texto = null;
+        let mostrar = false;
+        switch (mensaje) {
+            case 'exito_reporte':
+                tipo = 'success';
+                texto = 'El reporte fué generado correctamente';
+                mostrar = true;
+                break;
+            case 'error_reporte':
+                tipo = 'error';
+                texto = 'El reporte no pudo generarse, comuniquese con el personal de sistemas';
+                mostrar = true;
+                break;
+            default:
+                Swal.close();
+                break;
+        }
+        if (mostrar) {
+            Swal.fire({
+                position: 'center',
+                icon: tipo,
+                text: texto,
+                showConfirmButton: false
+            })
+        }
+    }
 });

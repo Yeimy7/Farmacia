@@ -10,6 +10,26 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
     <?php
     include_once 'layouts/nav.php';
     ?>
+    <div class="modal fade" id="modalFormatoReporte" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Elegir formato de reporte</h3>
+                        <button data-dismiss="modal" aria-label="close" class="close" style="outline:none;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group text-center">
+                            <button id="button-reporte" class="btn btn-outline-danger">Formato PDF <i class="far fa-file-pdf ml-2"></i></button>
+                            <button class="btn btn-outline-success" >Formato Excel <i class="far fa-file-excel ml-2"></i> </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="crearlote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -165,9 +185,9 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestion producto 
+                        <h1>Gestion producto
                             <button id="button-crear" type="button" data-toggle="modal" data-target="#crearproducto" class="btn bg-gradient-primary ml-2">Crear producto</button>
-                            <button id="button-reporte" type="button" class="btn bg-gradient-success ml-2">Reporte de productos</button>
+                            <button  type="button" data-toggle="modal" data-target="#modalFormatoReporte" class="btn bg-gradient-success ml-2">Reporte de productos</button>
                         </h1>
                     </div>
                     <div class="col-sm-6">
