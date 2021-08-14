@@ -25,7 +25,7 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
                             <span><i class="fas fa-check m-1"></i>Se agregó correctamente</span>
                         </div>
                         <form id="form-crear-lote">
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label for="nombre_producto_lote">Producto: </label>
                                 <label id="nombre_producto_lote">Nombre de Producto</label>
                             </div>
@@ -41,7 +41,7 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
                                 <label for="vencimiento">Vencimiento</label>
                                 <input id="vencimiento" type="date" class="form-control" placeholder="Ingrese vencimiento">
                             </div>
-                        
+
                             <input type="hidden" id="id_lote_prod">
 
 
@@ -165,7 +165,10 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestion producto <button id="button-crear" type="button" data-toggle="modal" data-target="#crearproducto" class="btn bg-gradient-primary ml-2">Crear producto</button></h1>
+                        <h1>Gestion producto 
+                            <button id="button-crear" type="button" data-toggle="modal" data-target="#crearproducto" class="btn bg-gradient-primary ml-2">Crear producto</button>
+                            <button id="button-reporte" type="button" class="btn bg-gradient-success ml-2">Reporte de productos</button>
+                        </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">

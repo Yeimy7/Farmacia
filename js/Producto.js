@@ -310,4 +310,11 @@ $(document).ready(function () {
 
         e.preventDefault();
     });
+    $(document).on('click','#button-reporte',(e)=>{
+       funcion='reporte_productos'; 
+        $.post('../controlador/ProductoController.php',{funcion},(response)=>{
+            console.log(response);
+            window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
+        });
+    });
 });

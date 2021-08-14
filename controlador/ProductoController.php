@@ -1,5 +1,6 @@
 <?php
 include '../modelo/Producto.php';
+require_once('../vendor/autoload.php');
 
 $producto = new Producto();
 if ($_POST['funcion'] == 'crear') {
@@ -132,7 +133,7 @@ if ($_POST['funcion'] == 'traer_productos') {
     foreach ($productos as $resultado) {
         $producto->buscar_id($resultado->id);
         foreach ($producto->objetos as $objeto) {
-            $subtotal=$objeto->precio*$resultado->cantidad;
+            $subtotal = $objeto->precio * $resultado->cantidad;
             $producto->obtener_stock($objeto->id_producto);
             foreach ($producto->objetos as $obj) {
                 $stock = $obj->total;
@@ -159,4 +160,70 @@ if ($_POST['funcion'] == 'traer_productos') {
         }
     }
     echo $html;
+}
+if ($_POST['funcion'] == 'reporte_productos') {
+    date_default_timezone_set('America/La_Paz');
+    $fecha = date('Y-m-d H:i:s');
+    $html = '
+    <header>
+        <div id="logo">
+            <img src="../img/doctor.png" width="60" height="60">
+        </div>
+        <h1>REPORTE DE PRODUCTOS</h1>
+        <div id="project">
+            <div>
+                <span>Fecha y Hora: </span>' . $fecha . '
+            </div>
+        </div>
+    </header>
+    <table>
+        <thead>
+        <tr>
+            <th>N*</th>
+            <th>Productos</th>
+            <th>Concentración</th>
+            <th>Adicional</th>
+            <th>Laboratorio</th>
+            <th>Presentación</th>
+            <th>Tipo</th>
+            <th>Stock</th>
+            <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+                
+        
+    
+    ';
+    $producto->reporte_producto();
+    $contador = 0;
+    foreach ($producto->objetos as $objeto) {
+        $contador++;
+        $producto->obtener_stock($objeto->id_producto);
+        foreach ($producto->objetos as $obj) {
+            $stock = $obj->total;
+        }
+        $html .= '
+        <tr>
+            <td class="servic">' . $contador . '</td>
+            <td class="servic">' . $objeto->nombre . '</td>
+            <td class="servic">' . $objeto->concentracion . '</td>
+            <td class="servic">' . $objeto->adicional . '</td>
+            <td class="servic">' . $objeto->laboratorio . '</td>
+            <td class="servic">' . $objeto->presentacion . '</td>
+            <td class="servic">' . $objeto->tipo . '</td>
+            <td class="servic">' . $stock . '</td>
+            <td class="servic">' . $objeto->precio . '</td>
+        </tr>
+        ';
+    }
+    $html .= '
+        </tbody>
+    </table>
+    ';
+    $css = file_get_contents("../css/pdf.css");
+    $mpdf = new \Mpdf\Mpdf();
+    $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
+    $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+    $mpdf->Output("../pdf/pdf-" . $_POST['funcion'] . ".pdf", "F");
 }
