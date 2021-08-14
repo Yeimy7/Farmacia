@@ -6,7 +6,7 @@
   <title>Recuperar password</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="stylesheet" href="../css/sweetalert2.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../css/css/all.min.css">
   <!-- Theme style -->
@@ -66,6 +66,8 @@
 <!-- AdminLTE App -->
 <script src="../js/adminlte.min.js"></script>
 <script src="../js/recuperar.js"></script>
+<script src="../js/sweetalert2.js"></script>
+
 
 </body>
 </html>
