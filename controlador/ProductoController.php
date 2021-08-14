@@ -1,6 +1,12 @@
 <?php
 include '../modelo/Producto.php';
 require_once('../vendor/autoload.php');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
 
 $producto = new Producto();
 if ($_POST['funcion'] == 'crear') {
@@ -226,4 +232,46 @@ if ($_POST['funcion'] == 'reporte_productos') {
     $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
     $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
     $mpdf->Output("../pdf/pdf-" . $_POST['funcion'] . ".pdf", "F");
+}
+if ($_POST['funcion'] == 'reporte_productosExcel') {
+    $nombre_archivo='reporte_productos.xlsx';
+    $producto->reporte_producto();
+    $contador = 0;
+    foreach ($producto->objetos as $objeto) {
+        $contador++;
+        $producto->obtener_stock($objeto->id_producto);
+        foreach ($producto->objetos as $obj) {
+            $stock = $obj->total;
+        }
+        $json[] = array(
+            'N' => $contador,
+            'nombre' => $objeto->nombre,
+            'concentracion' => $objeto->concentracion,
+            'adicional' => $objeto->adicional,
+            'laboratorio' => $objeto->laboratorio,
+            'presentacion' => $objeto->presentacion,
+            'tipo' => $objeto->tipo,
+            'stock' => $stock,
+            'precio' => $objeto->precio
+        );
+    }
+    $spreadsheet = new Spreadsheet();
+    $Sheet=$spreadsheet->getActiveSheet();
+    $Sheet->setTitle('Reporte de productos');
+    $Sheet->setCellValue('A1','Reporte de productos en Excel');
+    $Sheet->getStyle('A1')->getFont()->setSize(17);
+    $Sheet->fromArray(array_keys($json[0]),NULL, 'A4');
+    $Sheet->getStyle('A4:I4')
+    ->getfill()
+    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+    ->getStartColor()
+    ->setARGB('2D9F39');
+    $Sheet->getStyle('A4:I4')
+    ->getFont()
+    ->getColor()
+    ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+    $writer=IOFactory::createWriter($spreadsheet,'Xlsx');
+    $writer->save('../Excel/'.$nombre_archivo);
+
+
 }

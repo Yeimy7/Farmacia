@@ -324,6 +324,20 @@ $(document).ready(function () {
             }
         });
     });
+    $(document).on('click','#button-reporteExcel',(e)=>{
+       // Mostrar_loader("generarReportePDF");
+       funcion='reporte_productosExcel'; 
+        $.post('../controlador/ProductoController.php',{funcion},(response)=>{
+            console.log(response);
+            if(response==""){
+               // Cerrar_loader("exito_reporte");
+               window.open('../Excel/reporte_productos.xlsx','_blank');
+            }
+            else{
+               // Cerrar_loader("error_reporte");
+            }
+        });
+    });
 
     function Mostrar_loader(mensaje) {
         let texto = null;
