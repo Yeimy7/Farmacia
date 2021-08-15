@@ -270,6 +270,28 @@ if ($_POST['funcion'] == 'reporte_productosExcel') {
     ->getFont()
     ->getColor()
     ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+    foreach ($json as $key => $producto) {
+        $celda=(int)$key+5;
+        if($producto['stock']==''){
+            $Sheet->getStyle('A'.$celda.':I'.$celda)
+            ->getFont()
+            ->getColor()
+            ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED);
+        }
+        $Sheet->setCellValue('A'.$celda,$producto['N']);
+        $Sheet->setCellValue('B'.$celda,$producto['nombre']);
+        $Sheet->setCellValue('C'.$celda,$producto['concentracion']);
+        $Sheet->setCellValue('D'.$celda,$producto['adicional']);
+        $Sheet->setCellValue('E'.$celda,$producto['laboratorio']);
+        $Sheet->setCellValue('F'.$celda,$producto['presentacion']);
+        $Sheet->setCellValue('G'.$celda,$producto['tipo']);
+        $Sheet->setCellValue('H'.$celda,$producto['stock']);
+        $Sheet->setCellValue('I'.$celda,$producto['precio']);
+    }
+    foreach (range('B','I') as $col ) {
+        $Sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+    
     $writer=IOFactory::createWriter($spreadsheet,'Xlsx');
     $writer->save('../Excel/'.$nombre_archivo);
 
