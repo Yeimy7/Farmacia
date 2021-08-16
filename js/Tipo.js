@@ -96,7 +96,6 @@ $(document).ready(function () {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log('hola')
                 $.post('../controlador/TipoController.php', { id, funcion }, (response) => {
                     edit = false;
                     if (response == 'borrado') {
