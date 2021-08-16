@@ -10,12 +10,23 @@ class Producto
     }
     function crear($nombre, $concentracion, $adicional, $precio, $laboratorio, $tipo, $presentacion, $avatar)
     {
-        $sql = "SELECT id_producto FROM producto where nombre=:nombre and concentracion=:concentracion and adicional=:adicional and prod_lab=:laboratorio and prod_tip_prod=:tipo and prod_present=:presentacion";
+        $sql = "SELECT id_producto, estado FROM producto where nombre=:nombre and concentracion=:concentracion and adicional=:adicional and prod_lab=:laboratorio and prod_tip_prod=:tipo and prod_present=:presentacion";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':nombre' => $nombre, ':concentracion' => $concentracion, ':adicional' => $adicional, ':laboratorio' => $laboratorio, ':tipo' => $tipo, ':presentacion' => $presentacion));
         $this->objetos = $query->fetchall();
         if (!empty($this->objetos)) {
-            echo 'noadd';
+            foreach ($this->objetos as $prod) {
+                $prod_id_producto = $prod->id_producto;
+                $prod_estado = $prod->estado;
+            }
+            if ($prod_estado == 'A') {
+                echo 'noadd';
+            } else {
+                $sql = "UPDATE producto SET estado='A' where id_producto=:id;";
+                $query = $this->acceso->prepare($sql);
+                $query->execute(array(':id' => $prod_id_producto));
+                echo 'add';
+            }
         } else {
             $sql = "INSERT INTO producto(nombre,concentracion,adicional,precio,prod_lab,prod_tip_prod,prod_present,avatar) VALUES (:nombre,:concentracion,:adicional,:precio,:laboratorio,:tipo,:presentacion,:avatar);";
             $query = $this->acceso->prepare($sql);
@@ -46,7 +57,7 @@ class Producto
                 FROM `producto`
                 join laboratorio on prod_lab=id_laboratorio
                 join tipo_producto on prod_tip_prod=id_tip_prod
-                join presentacion on prod_present=id_presentacion and producto.nombre LIKE :consulta LIMIT 25;";
+                join presentacion on prod_present=id_presentacion where producto.estado='A' and producto.nombre LIKE :consulta LIMIT 25;";
             $query = $this->acceso->prepare($sql);
             $query->execute(array(':consulta' => "%$consulta%"));
             $this->objetos = $query->fetchall();
@@ -56,7 +67,7 @@ class Producto
                 FROM `producto`
                 join laboratorio on prod_lab=id_laboratorio
                 join tipo_producto on prod_tip_prod=id_tip_prod
-                join presentacion on prod_present=id_presentacion and producto.nombre NOT LIKE '' order by producto.nombre LIMIT 25;";
+                join presentacion on prod_present=id_presentacion where producto.estado='A' and producto.nombre NOT LIKE '' order by producto.nombre LIMIT 25;";
             $query = $this->acceso->prepare($sql);
             $query->execute();
             $this->objetos = $query->fetchall();
@@ -73,15 +84,25 @@ class Producto
     }
     function borrar($id)
     {
-        $sql = "DELETE from producto where id_producto=:id";
+        $sql = "SELECT * from lote where lote_id_prod=:id";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':id' => $id));
-        if (!empty($query->execute(array(':id' => $id)))) {
-            echo 'borrado';
+        $lote = $query->fetchall();
+        if (!empty($lote)) {
+            echo 'no borrado';
         } else {
-            echo 'noborrado';
+            $sql = "UPDATE producto SET estado='I' where id_producto=:id";
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(':id' => $id));
+            if (!empty($query->execute(array(':id' => $id)))) {
+                echo 'borrado';
+            } else {
+                echo 'noborrado';
+            }
         }
     }
+
+
     function obtener_stock($id)
     {
         $sql = "SELECT SUM(stock) as total FROM lote where lote_id_prod=:id";

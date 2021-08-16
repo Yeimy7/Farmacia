@@ -80,6 +80,9 @@ $(document).ready(function () {
                 $('#add').show(1000);
                 $('#add').hide(4000);
                 $('#form-crear-producto').trigger('reset');
+                $('#laboratorio').val('').trigger('change');
+                $('#tipo').val('').trigger('change');
+                $('#presentacion').val('').trigger('change');
                 buscar_producto();
             }
             if (response == 'edit') {
@@ -87,6 +90,9 @@ $(document).ready(function () {
                 $('#edit_prod').show(1000);
                 $('#edit_prod').hide(4000);
                 $('#form-crear-producto').trigger('reset');
+                $('#laboratorio').val('').trigger('change');
+                $('#tipo').val('').trigger('change');
+                $('#presentacion').val('').trigger('change');
                 buscar_producto();
             }
             if (response == 'noadd') {
@@ -266,6 +272,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('../controlador/ProductoController.php', { id, funcion }, (response) => {
+                    console.log(response);
                     edit = false;
                     if (response == 'borrado') {
                         swalWithBootstrapButtons.fire(
@@ -278,7 +285,7 @@ $(document).ready(function () {
                     else {
                         swalWithBootstrapButtons.fire(
                             'No se pudo borrar!',
-                            'El Producto ' + nombre + ' no fue borrado porque esta siendo usado en un lote',
+                            'El Producto ' + nombre + ' no fue borrado porque tiene stock disponible',
                             'error'
                         )
                     }
@@ -310,31 +317,31 @@ $(document).ready(function () {
 
         e.preventDefault();
     });
-    $(document).on('click','#button-reporte',(e)=>{
+    $(document).on('click', '#button-reporte', (e) => {
         Mostrar_loader("generarReportePDF");
-       funcion='reporte_productos'; 
-        $.post('../controlador/ProductoController.php',{funcion},(response)=>{
+        funcion = 'reporte_productos';
+        $.post('../controlador/ProductoController.php', { funcion }, (response) => {
             console.log(response);
-            if(response==""){
+            if (response == "") {
                 Cerrar_loader("exito_reporte");
-                window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
+                window.open('../pdf/pdf-' + funcion + '.pdf', '_blank');
             }
-            else{
+            else {
                 Cerrar_loader("error_reporte");
             }
         });
     });
-    $(document).on('click','#button-reporteExcel',(e)=>{
-       // Mostrar_loader("generarReportePDF");
-       funcion='reporte_productosExcel'; 
-        $.post('../controlador/ProductoController.php',{funcion},(response)=>{
+    $(document).on('click', '#button-reporteExcel', (e) => {
+        // Mostrar_loader("generarReportePDF");
+        funcion = 'reporte_productosExcel';
+        $.post('../controlador/ProductoController.php', { funcion }, (response) => {
             console.log(response);
-            if(response==""){
-               // Cerrar_loader("exito_reporte");
-               window.open('../Excel/reporte_productos.xlsx','_blank');
+            if (response == "") {
+                // Cerrar_loader("exito_reporte");
+                window.open('../Excel/reporte_productos.xlsx', '_blank');
             }
-            else{
-               // Cerrar_loader("error_reporte");
+            else {
+                // Cerrar_loader("error_reporte");
             }
         });
     });
