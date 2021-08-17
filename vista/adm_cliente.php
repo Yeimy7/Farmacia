@@ -5,60 +5,19 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
 ?>
 
 
-    <title>Adm | Editar Datos</title>
+    <title>Adm | Editar Cliente</title>
     <!-- Tell the browser to be responsive to screen width -->
     <?php
     include_once 'layouts/nav.php';
     ?>
 
-<div class="modal fade" id="cambiologo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cambiar logo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center">
-                        <img id="logoactual" src="../img/prov/prov_default.jpg" alt="administrador-photo" class="profile-user-img img-fluid img-circle">
-                    </div>
-                    <div class="text-center">
-                        <b id="nombre_logo">
-                        </b>
-                    </div>
-                    <div class="alert alert-success text-center" id="edit-prov" style="display: none;">
-                        <span><i class="fas fa-check m-1"></i>Se cambió el logo</span>
-                    </div>
-                    <div class="alert alert-danger text-center" id="noedit-prov" style="display: none;">
-                        <span><i class="fas fa-times m-1"></i>Formato no soportado</span>
-                    </div>
-                    <form id="form-logo" enctype="multipart/form-data">
-                        <div class="input-group mb-3 ml-5 mt-2">
-                            <input type="file" name="photo" class="input-group">
-                            <input type="hidden" name="funcion" id="funcion">
-                            <input type="hidden" name="id_logo_prov" id="id_logo_prov">
-                            <input type="hidden" name="avatar" id="avatar">
-                        </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn bg-gradient-primary">Guardar</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="crearproveedor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="crearcliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Crear proveedor</h3>
+                        <h3 class="card-title">Crear cliente</h3>
                         <button data-dismiss="modal" aria-label="close" class="close" style="outline:none;">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -68,7 +27,7 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
                             <span><i class="fas fa-check m-1"></i>Se agregó correctamente</span>
                         </div>
                         <div class="alert alert-danger text-center" id="noadd-prov" style="display: none;">
-                            <span><i class="fas fa-times m-1"></i>El proveedor ya existe</span>
+                            <span><i class="fas fa-times m-1"></i>El cliente ya existe</span>
                         </div>
                         <div class="alert alert-success text-center" id="edit-prove" style="display: none;">
                             <span><i class="fas fa-check m-1"></i>Se modificó correctamente</span>
@@ -108,12 +67,12 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Gestion proveedor <button type="button" data-toggle="modal" data-target="#crearproveedor" class="btn bg-gradient-primary ml-2">Crear proveedor</button></h1>
+                        <h1>Gestion cliente <button type="button" data-toggle="modal" data-target="#crearcliente" class="btn bg-gradient-primary ml-2">Crear cliente</button></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="adm_catalogo.php">Home</a></li>
-                            <li class="breadcrumb-item active">Gestion proveedor</li>
+                            <li class="breadcrumb-item active">Gestion cliente</li>
                         </ol>
                     </div>
                 </div>
@@ -123,16 +82,16 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
             <div class="container-fluid">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Buscar proveedor</h3>
+                        <h3 class="card-title">Buscar cliente</h3>
                         <div class="input-group">
-                            <input type="text" id="buscar_proveedor" class="form-control float-left" placeholder="Ingrese nombre de proveedor">
+                            <input type="text" id="buscar_cliente" class="form-control float-left" placeholder="Ingrese nombre de cliente">
                             <div class="input-group-append">
                                 <button class="btn btn-default"><i class="fas fa-search"></i></button>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div id="proveedores" class="row d-flex align-items-stretch">
+                        <div id="cliente" class="row d-flex align-items-stretch">
 
                         </div>
 
@@ -153,4 +112,4 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
 }
 ?>
 
-<script src="../js/Proveedor.js"></script>
+<script src="../js/Cliente.js"></script>
