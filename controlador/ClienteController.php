@@ -25,3 +25,15 @@ if($_POST['funcion']=='buscar'){
     $jsonstring=json_encode($json);
     echo $jsonstring;
 }
+if($_POST['funcion']=='crear'){
+    $nombre=$_POST['nombre'];
+    $apellido=$_POST['apellido'];
+    $dni=$_POST['dni'];
+    $edad=$_POST['edad'];
+    $telefono=$_POST['telefono'];
+    $correo=$_POST['correo'];
+    $sexo=$_POST['sexo'];
+    $adicional=$_POST['adicional'];
+    $avatar='default.png';
+    $cliente->crear($nombre,$apellido,$dni,$edad,$telefono,$correo,$sexo,$adicional,$avatar);
+}

@@ -1,15 +1,15 @@
 $(document).ready(function () {
-    buscar_cliente();
-    var funcion;
-    function buscar_cliente(consulta) {
-        funcion = 'buscar';
-        $.post('../controlador/ClienteController.php', { consulta, funcion }, (response) => {
-            console.log(response);
-        
-          const clientes = JSON.parse(response);
-          let template = '';
-          clientes.forEach(cliente => {
-            template += `
+  buscar_cliente();
+  var funcion;
+  function buscar_cliente(consulta) {
+    funcion = 'buscar';
+    $.post('../controlador/ClienteController.php', { consulta, funcion }, (response) => {
+      console.log(response);
+
+      const clientes = JSON.parse(response);
+      let template = '';
+      clientes.forEach(cliente => {
+        template += `
                     <div cliId="${cliente.id}" cliNombre="${cliente.nombre}" cliDni="${cliente.dni}" cliEdad="${cliente.edad}" cliTelefono="${cliente.telefono}" cliCorreo="${cliente.correo}" cliSexo="${cliente.sexo}" cliAdicional="${cliente.adicional}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
                     <div class="card bg-light">
                     <div class="card-header text-muted border-bottom-0">
@@ -35,7 +35,7 @@ $(document).ready(function () {
                 </div>
                 <div class="card-footer">
                   <div class="text-right">
-                    <button  class="editar btn btn-sm btn-success" title="Editar cliente" type="button" data-toggle="modal" data-target="#crearcliente">
+                    <button  class="editar btn btn-sm btn-success" title="Editar cliente" type="button" data-toggle="modal" data-target="#editarcliente">
                       <i class="fas fa-pencil-alt"></i>
                     </button>
                     <button  class="borrar btn btn-sm btn-danger" title="Borrar cliente">
@@ -46,33 +46,47 @@ $(document).ready(function () {
               </div>
             </div>
                     `;
-          });
-          $('#cliente').html(template);
-        })
+      });
+      $('#cliente').html(template);
+    })
+  }
+  $(document).on('keyup', '#buscar_cliente', function () {
+    let valor = $(this).val();
+    if (valor != '') {
+      buscar_cliente(valor);
+    }
+    else {
+      buscar_cliente();
+    }
+  });
+
+  $('#form-crear').submit(e => {
+
+    let nombre = $('#nombre').val();
+    let apellido = $('#apellido').val();
+    let dni = $('#dni').val();
+    let edad = $('#edad').val();
+    let telefono = $('#telefono').val();
+    let correo = $('#correo').val();
+    let sexo = $('#sexo').val();
+    let adicional = $('#adicional').val();
+    funcion = 'crear';
+    $.post('../controlador/ClienteController.php', { funcion, nombre, apellido, dni, edad, telefono, correo, sexo, adicional }, (response) => {
+      if (response == 'add') {
+        $('#add-cli').hide('slow');
+        $('#add-cli').show(1000);
+        $('#add-cli').hide(4000);
+        $('#form-crear').trigger('reset');
+        buscar_cliente();
       }
-      $(document).on('keyup', '#buscar_cliente', function () {
-        let valor = $(this).val();
-        if (valor != '') {
-          buscar_cliente(valor);
-        }
-        else {
-          buscar_cliente();
-        }
-      });
+      if (response == 'noadd' || response == 'noedit') {
+        $('#noadd-cli').hide('slow');
+        $('#noadd-cli').show(1000);
+        $('#noadd-cli').hide(4000);
+        $('#form-crear').trigger('reset');
+      }
+    })
 
-      $('#form-crear').submit(e => {
-
-        let nombre = $('#nombre').val();
-        let apellido = $('#apellido').val();
-        let dni = $('#dni').val();
-        let edad = $('#edad').val();
-        let telefono = $('#telefono').val();
-        let correo = $('#correo').val();
-        let sexo= $('#sexo').val();
-        let adicional = $('#adicional').val();
-
-        console.log(nombre+apellido+dni+edad+telefono+correo+sexo+adicional);
-        
-        e.preventDefault();
-      });
+    e.preventDefault();
+  });
 });
