@@ -38,16 +38,32 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3) {
                                 <input id="nombre" type="text" class="form-control" placeholder="Ingrese nombre" required>
                             </div>
                             <div class="form-group">
+                                <label for="apellido">Apellidos</label>
+                                <input id="apellido" type="text" class="form-control" placeholder="Ingrese apellidos" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="dni">Dni</label>
+                                <input id="dni" type="number" class="form-control" placeholder="Ingrese dni" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edad">Nacimiento</label>
+                                <input id="edad" type="date" class="form-control" placeholder="Ingrese nacimiento" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="telefono">Teléfono</label>
-                                <input id="telefono" type="number" class="form-control" placeholder="Ingrese teléfono" required>
+                                <input id="telefono" type="number" class="form-control" placeholder="Ingrese teléfono" >
                             </div>
                             <div class="form-group">
                                 <label for="correo">Correo</label>
                                 <input id="correo" type="email" class="form-control" placeholder="Ingrese correo">
                             </div>
                             <div class="form-group">
-                                <label for="direccion">Dirección</label>
-                                <input id="direccion" type="text" class="form-control" placeholder="Ingrese dirección" required>
+                                <label for="sexo">Sexo</label>
+                                <input id="sexo" type="text" class="form-control" placeholder="Ingrese sexo" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adicional">Adicional</label>
+                                <input id="adicional" type="text" class="form-control" placeholder="Ingrese adicional">
                             </div>
                             <input type="hidden" id="id_edit_prov">
                     </div>
