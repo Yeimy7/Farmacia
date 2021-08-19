@@ -10,7 +10,7 @@ $(document).ready(function () {
       let template = '';
       clientes.forEach(cliente => {
         template += `
-                    <div cliId="${cliente.id}" cliTelefono="${cliente.telefono}" cliCorreo="${cliente.correo}" cliAdicional="${cliente.adicional}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+                    <div cliId="${cliente.id}" cliNombre="${cliente.nombre} " cliTelefono="${cliente.telefono}" cliCorreo="${cliente.correo}" cliAdicional="${cliente.adicional}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
                     <div class="card bg-light">
                     <div class="card-header text-muted border-bottom-0">
                         <h1 class="badge badge-success">Cliente</h1>
@@ -105,11 +105,11 @@ $(document).ready(function () {
     let telefono = $('#telefono_edit').val();
     let correo = $('#correo_edit').val();
     let adicional = $('#adicional_edit').val();
-    let id=$('#id_cliente').val();
+    let id = $('#id_cliente').val();
     funcion = 'editar';
-    $.post('../controlador/ClienteController.php', { funcion,id ,telefono, correo,  adicional }, (response) => {
+    $.post('../controlador/ClienteController.php', { funcion, id, telefono, correo, adicional }, (response) => {
       console.log(response);
-      
+
       if (response == 'edit') {
         $('#edit-cli').hide('slow');
         $('#edit-cli').show(1000);
@@ -125,5 +125,64 @@ $(document).ready(function () {
       }
     })
     e.preventDefault();
-  })
+  });
+
+  $(document).on('click', '.borrar', (e) => {
+    funcion = 'borrar';
+    let elemento = $(this)[0].activeElement.parentElement.parentElement.parentElement.parentElement;
+    let id = $(elemento).attr('cliId');
+    let nombre = $(elemento).attr('cliNombre');
+    let avatar = '../img/default.png';
+
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger mr-1'
+      },
+      buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: 'Desea aliminar ' + nombre + '?',
+      text: "No podrá revertir acción!",
+      imageUrl: '' + avatar + '',
+      imageWidth: 100,
+      imageHeight: 100,
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'No, cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.post('../controlador/ClienteController.php', { id, funcion }, (response) => {
+     
+          if (response == 'borrado') {
+            swalWithBootstrapButtons.fire(
+              'Borrado!',
+              'El Cliente ' + nombre + ' fue borrado',
+              'success'
+            )
+            buscar_cliente();
+          }
+          else {
+            swalWithBootstrapButtons.fire(
+              'No se pudo borrar!',
+              'El Cliente ' + nombre + ' no fue borrado porque esta siendo usado en un lote',
+              'error'
+            )
+          }
+        });
+
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire(
+          'Cancelado',
+          'El Cliente ' + nombre + ' no fue borrado',
+          'error'
+        )
+      }
+    })
+
+  });
+
 });

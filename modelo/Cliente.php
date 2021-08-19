@@ -47,23 +47,34 @@ class Cliente
         } else {
             $sql = "INSERT INTO cliente(nombre,apellidos,dni,edad,telefono,correo,sexo,adicional,avatar) VALUES (:nombre,:apellido,:dni,:edad,:telefono,:correo,:sexo,:adicional,:avatar);";
             $query = $this->acceso->prepare($sql);
-            $query->execute(array(':nombre' => $nombre,':apellido'=>$apellido,':dni'=>$dni,':edad'=>$edad, ':telefono' => $telefono, ':correo' => $correo, ':sexo' => $sexo,':adicional'=>$adicional ,':avatar' => $avatar));
+            $query->execute(array(':nombre' => $nombre, ':apellido' => $apellido, ':dni' => $dni, ':edad' => $edad, ':telefono' => $telefono, ':correo' => $correo, ':sexo' => $sexo, ':adicional' => $adicional, ':avatar' => $avatar));
             echo 'add';
         }
     }
-    function editar($id, $telefono, $correo,  $adicional){
-        $sql="SELECT id FROM cliente where id=:id ";
-        $query=$this->acceso->prepare($sql);
-        $query->execute(array(':id'=>$id));
-        $this->objetos=$query->fetchall();
-        if(empty($this->objetos)){
+    function editar($id, $telefono, $correo,  $adicional)
+    {
+        $sql = "SELECT id FROM cliente where id=:id ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id' => $id));
+        $this->objetos = $query->fetchall();
+        if (empty($this->objetos)) {
             echo 'noedit';
-        }
-        else{
-            $sql="UPDATE cliente SET  telefono=:telefono ,correo=:correo , adicional=:adicional where id=:id;";
-            $query=$this->acceso->prepare($sql);
-            $query->execute(array(':id'=>$id, ':telefono'=>$telefono, ':correo'=>$correo,':adicional'=>$adicional));
+        } else {
+            $sql = "UPDATE cliente SET  telefono=:telefono ,correo=:correo , adicional=:adicional where id=:id;";
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(':id' => $id, ':telefono' => $telefono, ':correo' => $correo, ':adicional' => $adicional));
             echo 'edit';
+        }
+    }
+    function borrar($id)
+    {
+        $sql = "UPDATE cliente SET estado='I' where id=:id";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id' => $id));
+        if (!empty($query->execute(array(':id' => $id)))) {
+            echo 'borrado';
+        } else {
+            echo 'noborrado';
         }
     }
 }

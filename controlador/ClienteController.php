@@ -44,3 +44,7 @@ if ($_POST['funcion'] == 'editar') {
     $adicional = $_POST['adicional'];
     $cliente->editar($id, $telefono, $correo,  $adicional);
 }
+if($_POST['funcion']=='borrar'){
+    $id=$_POST['id'];
+    $cliente->borrar($id);
+}
