@@ -10,7 +10,7 @@ $(document).ready(function () {
       let template = '';
       clientes.forEach(cliente => {
         template += `
-                    <div cliId="${cliente.id}" cliNombre="${cliente.nombre}" cliDni="${cliente.dni}" cliEdad="${cliente.edad}" cliTelefono="${cliente.telefono}" cliCorreo="${cliente.correo}" cliSexo="${cliente.sexo}" cliAdicional="${cliente.adicional}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+                    <div cliId="${cliente.id}" cliTelefono="${cliente.telefono}" cliCorreo="${cliente.correo}" cliAdicional="${cliente.adicional}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
                     <div class="card bg-light">
                     <div class="card-header text-muted border-bottom-0">
                         <h1 class="badge badge-success">Cliente</h1>
@@ -79,14 +79,51 @@ $(document).ready(function () {
         $('#form-crear').trigger('reset');
         buscar_cliente();
       }
-      if (response == 'noadd' || response == 'noedit') {
+      if (response == 'noadd') {
         $('#noadd-cli').hide('slow');
         $('#noadd-cli').show(1000);
         $('#noadd-cli').hide(4000);
         $('#form-crear').trigger('reset');
       }
-    })
+    });
 
     e.preventDefault();
   });
+  $(document).on('click', '.editar', (e) => {
+    let elemento = $(this)[0].activeElement.parentElement.parentElement.parentElement.parentElement;
+    let telefono = $(elemento).attr('cliTelefono');
+    let correo = $(elemento).attr('cliCorreo');
+    let adicional = $(elemento).attr('cliAdicional');
+    let id = $(elemento).attr('cliId');
+    $('#telefono_edit').val(telefono);
+    $('#correo_edit').val(correo);
+    $('#adicional_edit').val(adicional);
+    $('#id_cliente').val(id);
+  });
+  $('#form-editar').submit(e => {
+
+    let telefono = $('#telefono_edit').val();
+    let correo = $('#correo_edit').val();
+    let adicional = $('#adicional_edit').val();
+    let id=$('#id_cliente').val();
+    funcion = 'editar';
+    $.post('../controlador/ClienteController.php', { funcion,id ,telefono, correo,  adicional }, (response) => {
+      console.log(response);
+      
+      if (response == 'edit') {
+        $('#edit-cli').hide('slow');
+        $('#edit-cli').show(1000);
+        $('#edit-cli').hide(4000);
+        $('#form-editar').trigger('reset');
+        buscar_cliente();
+      }
+      if (response == 'noedit') {
+        $('#noedit-cli').hide('slow');
+        $('#noedit-cli').show(1000);
+        $('#noedit-cli').hide(4000);
+        $('#form-editar').trigger('reset');
+      }
+    })
+    e.preventDefault();
+  })
 });

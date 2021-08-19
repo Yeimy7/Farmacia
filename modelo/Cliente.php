@@ -51,4 +51,19 @@ class Cliente
             echo 'add';
         }
     }
+    function editar($id, $telefono, $correo,  $adicional){
+        $sql="SELECT id FROM cliente where id=:id ";
+        $query=$this->acceso->prepare($sql);
+        $query->execute(array(':id'=>$id));
+        $this->objetos=$query->fetchall();
+        if(empty($this->objetos)){
+            echo 'noedit';
+        }
+        else{
+            $sql="UPDATE cliente SET  telefono=:telefono ,correo=:correo , adicional=:adicional where id=:id;";
+            $query=$this->acceso->prepare($sql);
+            $query->execute(array(':id'=>$id, ':telefono'=>$telefono, ':correo'=>$correo,':adicional'=>$adicional));
+            echo 'edit';
+        }
+    }
 }
