@@ -22,7 +22,7 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3 || $_SESSION['us_tipo
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="./adm_catalogo.php">Home</a></li>
                             <li class="breadcrumb-item active">Compra</li>
                         </ol>
                     </div>
@@ -47,18 +47,13 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3 || $_SESSION['us_tipo
                                         <div class="form-group row">
                                             <span>Cliente: </span>
                                             <div class="input-group-append col-md-6">
-                                                <input type="text" class="form-control" id="cliente" placeholder="Ingresa nombre">
+                                                <select class="form-control select2" style="width: 100%;" id="cliente"></select>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <span>DNI: </span>
-                                            <div class="input-group-append col-md-6">
-                                                <input type="number" class="form-control" id="dni" placeholder="Ingresa DNI">
-                                            </div>
-                                        </div>
+
                                         <div class="form-group row">
                                             <span>Vendedor: </span>
-                                            <h3>usuario</h3>
+                                            <h3><?php echo $_SESSION['nombre_us']; ?></h3>
                                         </div>
                                     </div>
                                 </header>

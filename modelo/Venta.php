@@ -8,11 +8,11 @@ class Venta
         $db = new Conexion();
         $this->acceso = $db->pdo;
     }
-    function Crear($nombre, $dni, $total, $fecha, $vendedor)
+    function Crear($cliente, $total, $fecha, $vendedor)
     {
-        $sql = "INSERT INTO venta(fecha,cliente,dni,total,vendedor) VALUES (:fecha, :cliente, :dni, :total, :vendedor);";
+        $sql = "INSERT INTO venta(fecha,total,vendedor,id_cliente) VALUES (:fecha, :total, :vendedor,:cliente);";
         $query = $this->acceso->prepare($sql);
-        $query->execute(array(':fecha' => $fecha, ':cliente' => $nombre, ':dni' => $dni, ':total' => $total, ':vendedor' => $vendedor));
+        $query->execute(array(':fecha' => $fecha, ':cliente' => $cliente, ':total' => $total, ':vendedor' => $vendedor));
     }
     function ultima_venta()
     {

@@ -48,3 +48,16 @@ if($_POST['funcion']=='borrar'){
     $id=$_POST['id'];
     $cliente->borrar($id);
 }
+if($_POST['funcion']=='rellenar_clientes'){
+    $cliente->rellenar_clientes();
+    $json=array();
+    foreach ($cliente->objetos as $objeto ) {
+        $json[]=array(
+            'id'=>$objeto->id,
+            'nombre'=>$objeto->nombre.' '.$objeto->apellidos.' | '.$objeto->dni
+        );
+    }
+    $jsonstring=json_encode($json);
+    echo $jsonstring;
+
+}

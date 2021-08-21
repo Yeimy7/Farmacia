@@ -77,4 +77,13 @@ class Cliente
             echo 'noborrado';
         }
     }
+    function rellenar_clientes()
+    {
+        $sql = "SELECT * FROM cliente where estado='A' order by nombre asc";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+        
+    }
 }
