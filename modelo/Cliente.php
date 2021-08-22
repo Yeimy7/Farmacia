@@ -1,5 +1,5 @@
 <?php
-include 'Conexion.php';
+include_once 'Conexion.php';
 class Cliente
 {
     var $objetos;
@@ -82,6 +82,15 @@ class Cliente
         $sql = "SELECT * FROM cliente where estado='A' order by nombre asc";
         $query = $this->acceso->prepare($sql);
         $query->execute();
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+        
+    }
+    function buscar_datos_cliente($id_cliente)
+    {
+        $sql = "SELECT * FROM cliente where id=:id_cliente";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id_cliente'=>$id_cliente));
         $this->objetos = $query->fetchall();
         return $this->objetos;
         
