@@ -287,14 +287,12 @@ $(document).ready(function () {
         let productos = recuperarLS();
         let json = JSON.stringify(productos);
         $.post('../controlador/CompraController.php', { funcion, total, cliente, json }, (response) => {
-            console.log(response);
         });
 
     }
     function rellenar_clientes() {
         funcion = 'rellenar_clientes';
         $.post('../controlador/ClienteController.php', { funcion }, (response) => {
-            console.log(response);
             let clientes = JSON.parse(response);
             let template = '';
             clientes.forEach(cliente => {

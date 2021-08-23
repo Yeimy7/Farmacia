@@ -126,7 +126,6 @@ class Producto
     }
     function reporte_producto()
     {
-
         $sql = "SELECT id_producto, producto.nombre as nombre, concentracion, adicional, precio, laboratorio.nombre as laboratorio, tipo_producto.nombre as tipo, presentacion.nombre as presentacion, producto.avatar as avatar,prod_lab,prod_tip_prod, prod_present
                 FROM `producto`
                 join laboratorio on prod_lab=id_laboratorio
@@ -136,5 +135,19 @@ class Producto
         $query->execute();
         $this->objetos = $query->fetchall();
         return $this->objetos;
+    }
+    function rellenar_productos()
+    {
+        $sql = "SELECT id_producto, producto.nombre as nombre, concentracion, adicional, precio, laboratorio.nombre as laboratorio, tipo_producto.nombre as tipo, presentacion.nombre as presentacion
+                FROM `producto`
+                join laboratorio on prod_lab=id_laboratorio
+                join tipo_producto on prod_tip_prod=id_tip_prod
+                join presentacion on prod_present=id_presentacion
+                order by nombre asc";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+        
     }
 }

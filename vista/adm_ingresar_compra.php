@@ -10,41 +10,7 @@ if ($_SESSION['us_tipo'] == 3) {
     <?php
     include_once 'layouts/nav.php';
     ?>
-    <div class="modal fade" id="editarlote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Editar lote</h3>
-                        <button data-dismiss="modal" aria-label="close" class="close" style="outline:none;">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <div class="alert alert-success text-center" id="edit-lote" style="display: none;">
-                            <span><i class="fas fa-check m-1"></i>Se modificó correctamente</span>
-                        </div>
-                        <form id="form-editar-lote">
-                            <div class="form-group">
-                                <label for="codigo_lote">Codigo lote:</label>
-                                <label id="codigo_lote">0</label>
-                            </div>
-                            <div class="form-group">
-                                <label for="stock">Stock</label>
-                                <input id="stock" type="number" class="form-control" placeholder="Ingrese stock" required>
-                            </div>
-                            <input type="hidden" id="id_lote_prod">
-
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn bg-gradient-primary float-right m-1">Guardar</button>
-                        <button type="button" data-dismiss="modal" class="btn btn-outline-secondary float-right m-1">Close</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -68,7 +34,6 @@ if ($_SESSION['us_tipo'] == 3) {
                 <div class="card card-success">
                     <div class="card-header">
                         <h3 class="card-title">Crear compra</h3>
-
                     </div>
                     <div class="card-body row">
                         <div class="card col-sm-3 p-3">
@@ -154,7 +119,6 @@ if ($_SESSION['us_tipo'] == 3) {
                             </table>
                             <button class="crear-compra btn bg-gradient-info text-center">Crear compra</button>
                         </div>
-
                     </div>
                     <div class="card-footer">
 
@@ -172,4 +136,4 @@ if ($_SESSION['us_tipo'] == 3) {
 }
 ?>
 
-<script src="../js/Lote.js"></script>
+<script src="../js/Ingresar_compra.js"></script>
