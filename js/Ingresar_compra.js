@@ -146,64 +146,90 @@ $(document).ready(function () {
             $('#noadd-compra').show(1000);
             $('#noadd-compra').hide(4000);
         }
-        else{
+        else {
             if (fecha_compra == '') {
                 $('#error-compra').text('Ingrese una fecha de compra');
                 $('#noadd-compra').hide('slow');
                 $('#noadd-compra').show(1000);
                 $('#noadd-compra').hide(4000);
             }
-            else{
+            else {
                 if (fecha_entrega == '') {
                     $('#error-compra').text('Ingrese una fecha de entrega');
                     $('#noadd-compra').hide('slow');
                     $('#noadd-compra').show(1000);
                     $('#noadd-compra').hide(4000);
                 }
-                else{
+                else {
                     if (total == '') {
                         $('#error-compra').text('Ingrese un total');
                         $('#noadd-compra').hide('slow');
                         $('#noadd-compra').show(1000);
                         $('#noadd-compra').hide(4000);
                     }
-                    else{
+                    else {
                         if (estado == null) {
                             $('#error-compra').text('Ingrese un estado');
                             $('#noadd-compra').hide('slow');
                             $('#noadd-compra').show(1000);
                             $('#noadd-compra').hide(4000);
                         }
-                        else{
+                        else {
                             if (proveedor == null) {
                                 $('#error-compra').text('Ingrese un proveedor');
                                 $('#noadd-compra').hide('slow');
                                 $('#noadd-compra').show(1000);
                                 $('#noadd-compra').hide(4000);
                             }
-                            else{
-                                if(prods==''){
+                            else {
+                                if (prods == '') {
                                     Swal.fire({
                                         icon: 'error',
                                         title: 'Oops...',
                                         text: 'No hay productos agregados'
                                     });
                                 }
-                                else{
-                                    Swal.fire({
-                                        position: 'center',
-                                        icon: 'success',
-                                        title: 'La compra se realizó',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    }).then(function () {
-                                        location.href = '../vista/adm_compras.php';
-                                    });
+                                else {
+                                    let descripcion = {
+                                        codigo: codigo,
+                                        fecha_compra: fecha_compra,
+                                        fecha_entrega: fecha_entrega,
+                                        total: total,
+                                        estado: estado,
+                                        proveedor: proveedor,
+                                    }
+                                    funcion = 'registrar_compra';
+                                    let productosString = JSON.stringify(prods);
+                                    let descripcionString = JSON.stringify(descripcion);
+                                    $.post('../controlador/ComprasController.php', { funcion, productosString, descripcionString }, (response) => {
+                                        console.log(response);
+                                        if (response = 'add') {
+                                            Swal.fire({
+                                                position: 'center',
+                                                icon: 'success',
+                                                title: 'La compra se realizó',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            }).then(function () {
+                                                location.href = '../vista/adm_compras.php';
+                                            });
+                                        }
+                                        else {
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: 'Error en el servidor'
+                                            });
+                                        }
+                                    })
+
+
+
 
                                 }
                             }
                         }
-                        
+
                     }
                 }
             }
