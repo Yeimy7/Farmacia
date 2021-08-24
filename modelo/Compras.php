@@ -23,5 +23,15 @@ class Compras
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }
+    function listar_compras()
+    {
+        $sql = "SELECT concat(c.id,' | ',c.codigo) as codigo, fecha_compra, fecha_entrega, total, e.nombre as estado, p.nombre as proveedor FROM compra as c
+        JOIN estado_pago as e ON e.id=c.id_estado_pago
+        JOIN proveedor as p ON p.id_proveedor=c.id_proveedor ;";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
     
 }

@@ -206,5 +206,4 @@ if ($_SESSION['us_tipo'] == 3 || $_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo
 }
 ?>
 
-<script src="../js/datatables.js"></script>
 <script src="../js/Venta.js"></script>

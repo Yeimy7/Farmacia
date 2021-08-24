@@ -29,8 +29,11 @@ if ($_POST['funcion'] == 'recuperar') {
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp-mail.outlook.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-        $mail->Username   = 'yeimylc@outlook.com';                     //SMTP username
-        $mail->Password   = 'Contramicrosoft77';                               //SMTP password
+        $mail->Username   = 'yeimylc@outlook.com'; 
+        //////////////  Debes introducir la contraseña del correo 
+        //////////////  electronico para que 
+        /////////////// funcione en la siguiente linea:
+        $mail->Password   = '';                                //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
         $mail->Port       = 587;
         $mail->SMTPOptions = array(
