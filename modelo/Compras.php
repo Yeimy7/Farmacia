@@ -9,11 +9,11 @@ class Compras
         $db = new Conexion();
         $this->acceso = $db->pdo;
     }
-    function crear($codigo,$fecha_compra,$fecha_entrega,$total,$id_estado,$id_proveedor)
+    function crear($codigo, $fecha_compra, $fecha_entrega, $total, $id_estado, $id_proveedor)
     {
         $sql = "INSERT INTO compra(codigo,fecha_compra,fecha_entrega,total,id_estado_pago,id_proveedor) VALUES (:codigo,:fecha_compra,:fecha_entrega,:total,:id_estado_pago,:id_proveedor);";
         $query = $this->acceso->prepare($sql);
-        $query->execute(array(':codigo' =>$codigo,':fecha_compra' =>$fecha_compra,':fecha_entrega' =>$fecha_entrega,':total' =>$total,':id_estado_pago' =>$id_estado,':id_proveedor' =>$id_proveedor ));
+        $query->execute(array(':codigo' => $codigo, ':fecha_compra' => $fecha_compra, ':fecha_entrega' => $fecha_entrega, ':total' => $total, ':id_estado_pago' => $id_estado, ':id_proveedor' => $id_proveedor));
     }
     function ultima_compra()
     {
@@ -33,5 +33,11 @@ class Compras
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }
-    
+    function editarEstado($id_compra, $id_estado)
+    {
+        $sql = "UPDATE compra SET id_estado_pago=:id_estado where id=:id_compra";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id_estado' => $id_estado,':id_compra'=>$id_compra));
+        echo 'edit';
+    }
 }

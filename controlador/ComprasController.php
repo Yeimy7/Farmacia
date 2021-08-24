@@ -34,3 +34,8 @@ if ($_POST['funcion'] == 'listar_compras') {
     $jsonstring = json_encode($json);
     echo $jsonstring;
 }
+if ($_POST['funcion'] == 'editarEstado') {
+    $id_compra=$_POST['id_compra'];
+    $id_estado=$_POST['id_estado'];
+    $compras->editarEstado($id_compra, $id_estado);
+}

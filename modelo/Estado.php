@@ -18,5 +18,14 @@ class Estado
         return $this->objetos;
         
     }
+    function obtenerId($nombre)
+    {
+        $sql = "SELECT * FROM estado_pago WHERE nombre=:nombre";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':nombre'=>$nombre));
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+        
+    }
     
 }
