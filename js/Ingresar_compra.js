@@ -202,8 +202,7 @@ $(document).ready(function () {
                                     let productosString = JSON.stringify(prods);
                                     let descripcionString = JSON.stringify(descripcion);
                                     $.post('../controlador/ComprasController.php', { funcion, productosString, descripcionString }, (response) => {
-                                        console.log(response);
-                                        if (response = 'add') {
+                                        if (response.trim() == 'add') {
                                             Swal.fire({
                                                 position: 'center',
                                                 icon: 'success',

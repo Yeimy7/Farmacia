@@ -99,6 +99,22 @@ class Lote
         $sql = "INSERT INTO lote(codigo,cantidad,cantidad_lote,vencimiento,precio_compra,id_compra,id_producto) values (:codigo,:cantidad,:cantidad_lote,:vencimiento,:precio_compra,:id_compra,:id_producto)";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':codigo' => $codigo, ':cantidad' => $cantidad, ':cantidad_lote' => $cantidad,':vencimiento' => $vencimiento,':precio_compra' => $precio_compra,':id_compra' => $id_compra, ':id_producto' => $id_producto));
-        echo 'add';
+    }
+    function ver($id)
+    {
+        $sql = "SELECT l.codigo as codigo, l.cantidad as cantidad, 
+        vencimiento, precio_compra, p.nombre as producto, concentracion, 
+        adicional, la.nombre as laboratorio, t.nombre as tipo , 
+        pre.nombre as presentacion
+        FROM lote as l
+        JOIN producto as p ON l.id_producto=p.id_producto
+        JOIN laboratorio as la ON prod_lab=id_laboratorio
+        JOIN tipo_producto as t on prod_tip_prod=id_tip_prod
+        JOIN presentacion as pre ON prod_present=id_presentacion
+        AND id_compra=:id;";
+    $query = $this->acceso->prepare($sql);
+    $query->execute(array(':id'=>$id));
+    $this->objetos = $query->fetchall();
+    return $this->objetos;
     }
 }

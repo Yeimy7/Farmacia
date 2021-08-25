@@ -32,11 +32,11 @@ $(document).ready(function () {
                     { "data": "proveedor" },
                     {
                         "defaultContent": `<button class="imprimir btn btn-secondary"><i class="fas fa-print"></i></button>
-                                        <button class="ver btn btn-info" type="button" data-toggle="modal" data-target="#vista_venta"><i class="fas fa-search"></i></button>
+                                        <button class="ver btn btn-info" type="button" data-toggle="modal" data-target="#vista_compra"><i class="fas fa-search"></i></button>
                                         <button class="editar btn btn-success" type="button" data-toggle="modal" data-target="#cambiarEstado"><i class="fas fa-pencil-alt"></i></button>
                                         `}
                 ],
-                "destroy":true,
+                "destroy": true,
                 "language": espanol
             });
 
@@ -75,7 +75,44 @@ $(document).ready(function () {
         })
         e.preventDefault();
     });
+    $('#compras tbody').on('click', '.ver', function () {
+        let datos = datatable.row($(this).parents()).data();
+        let codigo = (datos.codigo).split(' | ');
+        let id = codigo[0];
+
+        let funcion = 'ver';
+        $('#codigo_compra').html(datos.codigo);
+        $('#fecha_compra').html(datos.fecha_compra);
+        $('#fecha_entrega').html(datos.fecha_entrega);
+        $('#estado').html(datos.estado);
+        $('#proveedor').html(datos.proveedor);
+        $('#total').html(datos.total);
+        $.post('../controlador/LoteController.php', { funcion, id }, (response) => {
+            console.log(response);
+            let registros = JSON.parse(response);
+            let template = '';
+            $('#detalless').html(template);
+            registros.forEach(registro => {
+                template += `
+                    <tr>
+                        <td>${registro.numeracion}</td>
+                        <td>${registro.codigo}</td>
+                        <td>${registro.cantidad}</td>
+                        <td>${registro.vencimiento}</td>
+                        <td>${registro.precio_compra}</td>
+                        <td>${registro.producto}</td>
+                        <td>${registro.laboratorio}</td>
+                        <td>${registro.presentacion}</td>
+                        <td>${registro.tipo}</td>
+                    </tr>
+                `;
+                $('#detalles').html(template);
+            });
+
+        });
+    });
 });
+
 
 let espanol = {
     "processing": "Procesando...",

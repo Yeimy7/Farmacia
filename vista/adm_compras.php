@@ -10,7 +10,69 @@ if ($_SESSION['us_tipo'] == 3) {
     <?php
     include_once 'layouts/nav.php';
     ?>
-     <div class="modal fade" id="cambiarEstado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="vista_compra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Detalle compra</h3>
+                        <button data-dismiss="modal" aria-label="close" class="close" style="outline:none;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="codigo_compra">Código compra: </label>
+                            <span id="codigo_compra"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha_compra">Fecha de compra: </label>
+                            <span id="fecha_compra"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="fecha_entrega">Fecha de entrega: </label>
+                            <span id="fecha_entrega"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado: </label>
+                            <span id="estado"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="proveedor">Proveedor: </label>
+                            <span id="proveedor"></span>
+                        </div>
+                        <table class="table table-hover text-nowrap table-responsive">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Código</th>
+                                    <th>Cantidad</th>
+                                    <th>Vencimiento</th>
+                                    <th>Precio compra</th>
+                                    <th>Producto</th>
+                                    <th>Laboratorio</th>
+                                    <th>Presentación</th>
+                                    <th>Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detalles" class="table-warning">
+
+                            </tbody>
+                        </table>
+                        <div class="float-right input-group-append">
+                            <h3 class="m-3">Total: </h3>
+                            <h3 id="total" class="m-3"></h3>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-outline-secondary float-right m-1">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="cambiarEstado" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="card card-success">
@@ -30,7 +92,7 @@ if ($_SESSION['us_tipo'] == 3) {
                         <form id="form-editar">
                             <div class="form-group">
                                 <label for="estado_compra">Estado</label>
-                                <select  id="estado_compra" class="form-control select2" style="width:100%"></select>
+                                <select id="estado_compra" class="form-control select2" style="width:100%"></select>
                                 <input type="hidden" id="id_estado">
                             </div>
 
