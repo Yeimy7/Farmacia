@@ -111,6 +111,17 @@ $(document).ready(function () {
 
         });
     });
+    $('#compras tbody').on('click', '.imprimir', function () {
+        let datos = datatable.row($(this).parents()).data();
+        let codigo = (datos.codigo).split(' | ');
+        let id = codigo[0];
+
+        funcion='imprimir';
+        $.post('../controlador/ComprasController.php',{id, funcion},(response)=>{
+            window.open('../pdf/pdf-compra-'+id+'.pdf','_blank');
+        })
+        
+    });
 });
 
 

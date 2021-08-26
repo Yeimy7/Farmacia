@@ -40,4 +40,17 @@ class Compras
         $query->execute(array(':id_estado' => $id_estado,':id_compra'=>$id_compra));
         echo 'edit';
     }
+    function obtenerDatos($id)
+    {
+        $sql = "SELECT concat(c.id,' | ',c.codigo) as codigo, fecha_compra, fecha_entrega, 
+        total, e.nombre as estado, p.nombre as proveedor, telefono, correo,
+        direccion, p.avatar as avatar  
+        FROM compra as c
+        JOIN estado_pago as e ON e.id=c.id_estado_pago AND c.id=:id
+        JOIN proveedor as p ON p.id_proveedor=c.id_proveedor ;";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id'=>$id));
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
 }
