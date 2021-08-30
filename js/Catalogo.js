@@ -58,27 +58,66 @@ $(document).ready(function () {
     }
   });
   function mostrar_lotes_riesgo() {
-    funcion = "buscar";
+    funcion = "buscar_lotes_riesgo";
     $.post('../controlador/loteController.php', { funcion }, (response) => {
       const lotes = JSON.parse(response);
-      let template = '';
-      lotes.forEach(lote => {
-        if (lote.estado !== 'light') {
-          template += `
-                <tr class="table-${lote.estado}">
-                    <td>${lote.id}</td>
-                    <td>${lote.nombre}</td>
-                    <td>${lote.stock}</td>
-                    <td>${lote.laboratorio}</td>
-                    <td>${lote.presentacion}</td>
-                    <td>${lote.proveedor}</td>
-                    <td>${lote.mes}</td>
-                    <td>${lote.dia}</td>
-                </tr>
-                `;
-        }
+      datatable = $('#lotes').DataTable({
+        data: lotes,
+        "columns": [
+          { "data": "id" },
+          { "data": "nombre" },
+          { "data": "stock" },
+          { "data": "estado" },
+          { "data": "laboratorio" },
+          { "data": "presentacion" },
+          { "data": "proveedor" },
+          { "data": "mes" },
+          { "data": "dia" }
+        ],
+        columnDefs:[
+          {
+            "render":function(data,type,row){
+              let campo ='';
+              if(row.estado=='danger'){
+                campo=`<h1 class="badge badge-danger">${row.estado}</h1>`;
+              }
+              if(row.estado=='warning'){
+                campo=`<h1 class="badge badge-warning">${row.estado}</h1>`;
+              }
+              return campo;
+            },
+            "targets":[3]
+          }
+        ],
+        "destroy": true,
+        "language": espanol
       });
-      $('#lotes').html(template);
     })
   }
 });
+let espanol = {
+  "processing": "Procesando...",
+  "lengthMenu": "Mostrar _MENU_ registros",
+  "zeroRecords": "No se encontraron resultados",
+  "emptyTable": "Ningún dato disponible en esta tabla",
+  "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+  "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+  "search": "Buscar:",
+  "infoThousands": ",",
+  "loadingRecords": "Cargando...",
+  "paginate": {
+    "first": "Primero",
+    "last": "Último",
+    "next": "Siguiente",
+    "previous": "Anterior"
+  },
+  "aria": {
+    "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+    "sortDescending": ": Activar para ordenar la columna de manera descendente"
+  },
+  "buttons": {
+    "copy": "Copiar",
+    "colvis": "Visibilidad",
+
+  }
+};

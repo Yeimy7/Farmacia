@@ -37,12 +37,13 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3 || $_SESSION['us_tipo
             <h3 class="card-title">Lotes en riesgo</h3>
           </div>
           <div class="card-body p-0 table-responsive">
-            <table class="table tanle-hover text-nowrap animate__animated animate__fadeIn">
-              <thead class="table-success">
+            <table id="lotes" class="table tanle-hover text-nowrap animate__animated animate__fadeIn">
+              <thead class="table-danger">
                 <tr>
                   <th>Cod</th>
                   <th>Producto</th>
                   <th>Stock</th>
+                  <th>Estado</th>
                   <th>Laboratorio</th>
                   <th>Presentacion</th>
                   <th>Proveedor</th>
@@ -50,7 +51,7 @@ if ($_SESSION['us_tipo'] == 1 || $_SESSION['us_tipo'] == 3 || $_SESSION['us_tipo
                   <th>Dia</th>
                 </tr>
               </thead>
-              <tbody id="lotes" class="table-active">
+              <tbody  class="table-active">
 
               </tbody>
             </table>

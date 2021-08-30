@@ -36,7 +36,7 @@ else{
                     </div>
                     <div class="div">
                         <h5>DNI</h5>
-                        <input type="text" name="user" id="" class="input" autocomplete="off">
+                        <input type="text" name="user" id="" class="input" autocomplete="off" required>
                     </div>
                 </div>
                 <div class="input-div pass">
@@ -45,7 +45,7 @@ else{
                     </div>
                     <div class="div">
                         <h5>Contraseña</h5>
-                        <input type="password" name="pass" id="" class="input">
+                        <input type="password" name="pass" id="" class="input" required>
                     </div>
                 </div>
                 <a href="vista/recuperar.php"> Recuperar password </a>

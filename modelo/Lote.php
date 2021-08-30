@@ -32,9 +32,16 @@ class Lote
             $this->objetos = $query->fetchall();
             return $this->objetos;
         } else {
-            $sql = "SELECT id_lote, stock, vencimiento, concentracion, adicional, producto.nombre as prod_nom, laboratorio.nombre as lab_nom, tipo_producto.nombre as tip_nom, presentacion.nombre as pre_nom, proveedor.nombre as proveedor, producto.avatar as logo FROM lote
-                JOIN proveedor ON lote_id_prov=id_proveedor
-                JOIN producto ON lote_id_prod=id_producto
+            $sql = "SELECT l.id as id_lote, cantidad_lote, vencimiento, concentracion,
+             adicional, producto.nombre as prod_nom, 
+             laboratorio.nombre as lab_nom, 
+             tipo_producto.nombre as tip_nom, 
+             presentacion.nombre as pre_nom, 
+             proveedor.nombre as proveedor, producto.avatar as logo 
+                FROM lote as l
+                JOIN compra ON l.id_compra=compra.id
+                JOIN proveedor ON proveedor.id_proveedor=compra.id_proveedor
+                JOIN producto ON producto.id_producto=l.id_producto
                 JOIN laboratorio ON prod_lab=id_laboratorio
                 JOIN tipo_producto on prod_tip_prod=id_tip_prod
                 JOIN presentacion ON prod_present=id_presentacion
@@ -81,24 +88,23 @@ class Lote
             foreach ($lote_nuevo as $objeto) {
                 $id_lote_nuevo = $objeto->id_lote;
             }
-            if(!empty($lote_nuevo)){
+            if (!empty($lote_nuevo)) {
                 $sql = "UPDATE lote SET stock=stock+:cantidad where id_lote=:id_lote";
                 $query = $this->acceso->prepare($sql);
                 $query->execute(array(':cantidad' => $cantidad, ':id_lote' => $id_lote_nuevo));
-            }
-            else{
+            } else {
                 $sql = "INSERT INTO lote(id_lote,stock,vencimiento,lote_id_prod, lote_id_prov) VALUES (:id_lote,:stock,:vencimiento,:producto,:proveedor) ";
                 $query = $this->acceso->prepare($sql);
-                $query->execute(array(':id_lote' => $id_lote,':stock'=>$cantidad,':vencimiento'=>$vencimiento,':producto'=>$producto,':proveedor'=>$proveedor));
+                $query->execute(array(':id_lote' => $id_lote, ':stock' => $cantidad, ':vencimiento' => $vencimiento, ':producto' => $producto, ':proveedor' => $proveedor));
             }
         }
     }
     ////////////////////////////////////////////
-    function crear_lote($codigo, $cantidad, $vencimiento,$precio_compra,$id_compra,$id_producto)
+    function crear_lote($codigo, $cantidad, $vencimiento, $precio_compra, $id_compra, $id_producto)
     {
         $sql = "INSERT INTO lote(codigo,cantidad,cantidad_lote,vencimiento,precio_compra,id_compra,id_producto) values (:codigo,:cantidad,:cantidad_lote,:vencimiento,:precio_compra,:id_compra,:id_producto)";
         $query = $this->acceso->prepare($sql);
-        $query->execute(array(':codigo' => $codigo, ':cantidad' => $cantidad, ':cantidad_lote' => $cantidad,':vencimiento' => $vencimiento,':precio_compra' => $precio_compra,':id_compra' => $id_compra, ':id_producto' => $id_producto));
+        $query->execute(array(':codigo' => $codigo, ':cantidad' => $cantidad, ':cantidad_lote' => $cantidad, ':vencimiento' => $vencimiento, ':precio_compra' => $precio_compra, ':id_compra' => $id_compra, ':id_producto' => $id_producto));
     }
     function ver($id)
     {
@@ -112,9 +118,9 @@ class Lote
         JOIN tipo_producto as t on prod_tip_prod=id_tip_prod
         JOIN presentacion as pre ON prod_present=id_presentacion
         AND id_compra=:id;";
-    $query = $this->acceso->prepare($sql);
-    $query->execute(array(':id'=>$id));
-    $this->objetos = $query->fetchall();
-    return $this->objetos;
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id' => $id));
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
     }
 }
