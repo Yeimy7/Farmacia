@@ -19,12 +19,19 @@ class Lote
     {
         if (!empty($_POST['consulta'])) {
             $consulta = $_POST['consulta'];
-            $sql = "SELECT id_lote, stock, vencimiento, concentracion, adicional, producto.nombre as prod_nom, laboratorio.nombre as lab_nom, tipo_producto.nombre as tip_nom, presentacion.nombre as pre_nom, proveedor.nombre as proveedor, producto.avatar as logo FROM lote
-                JOIN proveedor ON lote_id_prov=id_proveedor
-                JOIN producto ON lote_id_prod=id_producto
-                JOIN laboratorio ON prod_lab=id_laboratorio
-                JOIN tipo_producto on prod_tip_prod=id_tip_prod
-                JOIN presentacion ON prod_present=id_presentacion
+            $sql = "SELECT l.id as id_lote,concat(l.id,' | ',l.codigo) as codigo, cantidad_lote, vencimiento, concentracion,
+            adicional, producto.nombre as prod_nom, 
+            laboratorio.nombre as lab_nom, 
+            tipo_producto.nombre as tip_nom, 
+            presentacion.nombre as pre_nom, 
+            proveedor.nombre as proveedor, producto.avatar as logo 
+               FROM lote as l
+               JOIN compra ON l.id_compra=compra.id AND l.estado='A'
+               JOIN proveedor ON proveedor.id_proveedor=compra.id_proveedor
+               JOIN producto ON producto.id_producto=l.id_producto
+               JOIN laboratorio ON prod_lab=id_laboratorio
+               JOIN tipo_producto on prod_tip_prod=id_tip_prod
+               JOIN presentacion ON prod_present=id_presentacion
                 AND producto.nombre LIKE :consulta ORDER BY producto.nombre LIMIT 25;
                 ";
             $query = $this->acceso->prepare($sql);
@@ -32,14 +39,14 @@ class Lote
             $this->objetos = $query->fetchall();
             return $this->objetos;
         } else {
-            $sql = "SELECT l.id as id_lote, cantidad_lote, vencimiento, concentracion,
+            $sql = "SELECT l.id as id_lote,concat(l.id,' | ',l.codigo) as codigo, cantidad_lote, vencimiento, concentracion,
              adicional, producto.nombre as prod_nom, 
              laboratorio.nombre as lab_nom, 
              tipo_producto.nombre as tip_nom, 
              presentacion.nombre as pre_nom, 
              proveedor.nombre as proveedor, producto.avatar as logo 
                 FROM lote as l
-                JOIN compra ON l.id_compra=compra.id
+                JOIN compra ON l.id_compra=compra.id AND l.estado='A'
                 JOIN proveedor ON proveedor.id_proveedor=compra.id_proveedor
                 JOIN producto ON producto.id_producto=l.id_producto
                 JOIN laboratorio ON prod_lab=id_laboratorio
@@ -54,14 +61,14 @@ class Lote
     }
     function editar($id, $stock)
     {
-        $sql = "UPDATE lote SET stock=:stock where id_lote=:id";
+        $sql = "UPDATE lote SET cantidad_lote=:stock where id=:id";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':stock' => $stock, ':id' => $id));
         echo 'edit';
     }
     function borrar($id)
     {
-        $sql = "DELETE from lote where id_lote=:id";
+        $sql = "UPDATE lote SET estado='I' where id=:id";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':id' => $id));
         if (!empty($query->execute(array(':id' => $id)))) {
