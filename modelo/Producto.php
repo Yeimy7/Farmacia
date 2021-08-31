@@ -105,7 +105,7 @@ class Producto
 
     function obtener_stock($id)
     {
-        $sql = "SELECT SUM(cantidad_lote) as total FROM lote where id_producto=:id";
+        $sql = "SELECT SUM(cantidad_lote) as total FROM lote where id_producto=:id AND estado='A'";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':id' => $id));
         $this->objetos = $query->fetchall();

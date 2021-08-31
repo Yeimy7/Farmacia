@@ -287,6 +287,7 @@ $(document).ready(function () {
         let productos = recuperarLS();
         let json = JSON.stringify(productos);
         $.post('../controlador/CompraController.php', { funcion, total, cliente, json }, (response) => {
+            console.log(response);
         });
 
     }
