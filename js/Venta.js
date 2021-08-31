@@ -65,6 +65,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('../controlador/DetalleVentaController.php', { funcion, id }, (response) => {
+                    console.log(response);
                     if (response == 'deleted') {
                         swalWithBootstrapButtons.fire(
                             'Borrado!',
