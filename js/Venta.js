@@ -8,7 +8,7 @@ $(document).ready(function () {
             $('#venta_diaria').html(Number(vistas.venta_diaria).toFixed(2));
             $('#venta_mensual').html(Number(vistas.venta_mensual).toFixed(2));
             $('#venta_anual').html(Number(vistas.venta_anual).toFixed(2));
-
+            $('#ganancia_mensual').html(Number(vistas.ganancia_mensual).toFixed(2));
         })
     }
     let funcion = 'listar';
