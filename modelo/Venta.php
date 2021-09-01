@@ -131,8 +131,8 @@ class Venta
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }
-    function ganancia_mensual(){
-        $sql = "SELECT SUM(det_cantidad*precio_compra) as ganancia_mensual from detalle_venta
+    function monto_costo(){
+        $sql = "SELECT SUM(det_cantidad*precio_compra) as monto_costo from detalle_venta
         JOIN venta on id_det_venta=id_venta 
         AND year(fecha)=year(curdate()) AND month(fecha)=month(curdate())
         JOIN lote ON id__det_lote=lote.id;";

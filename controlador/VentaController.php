@@ -46,10 +46,10 @@ if ($_POST['funcion'] == 'mostrar_consultas') {
     foreach ($venta->objetos as $objeto) {
         $venta_mensual = $objeto->venta_mensual;
     }
-    $venta->ganancia_mensual();
-    $ganancia_mensual='';
+    $venta->monto_costo();
+    $monto_costo='';
     foreach ($venta->objetos as $objeto) {
-        $ganancia_mensual = $objeto->ganancia_mensual;
+        $monto_costo = $objeto->monto_costo;
     }
     $venta->venta_anual();
     $json = array();
@@ -59,7 +59,7 @@ if ($_POST['funcion'] == 'mostrar_consultas') {
             'venta_diaria' => $venta_diaria,
             'venta_mensual' => $venta_mensual,
             'venta_anual' => $objeto->venta_anual,
-            'ganancia_mensual' =>$venta_diaria-$ganancia_mensual,
+            'ganancia_mensual' =>$venta_mensual-$monto_costo,
         );
     }
     $jsonstring = json_encode($json[0]);
