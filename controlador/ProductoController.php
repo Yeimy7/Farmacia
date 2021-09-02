@@ -1,6 +1,7 @@
 <?php
 include '../modelo/Producto.php';
 require_once('../vendor/autoload.php');
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -139,7 +140,13 @@ if ($_POST['funcion'] == 'traer_productos') {
     foreach ($productos as $resultado) {
         $producto->buscar_id($resultado->id);
         foreach ($producto->objetos as $objeto) {
-            $subtotal = $objeto->precio * $resultado->cantidad;
+            if ($resultado->cantidad == '') {
+                $resultadoCantidad = 0;
+            } else {
+                $resultadoCantidad = $resultado->cantidad;
+            }
+            $subtotal = $objeto->precio * $resultadoCantidad;
+            $sub=number_format($subtotal, 2, '.', '.');
             $producto->obtener_stock($objeto->id_producto);
             foreach ($producto->objetos as $obj) {
                 $stock = $obj->total;
@@ -157,7 +164,7 @@ if ($_POST['funcion'] == 'traer_productos') {
                         <input type='number' min='1' class='form-control cantidad_producto' value='$resultado->cantidad'>
                     </td>
                     <td class='subtotales'>
-                        <h5>$subtotal</h5> 
+                        <h5>$sub</h5> 
                     </td>
 
                     <td><button class='borrar-producto btn btn-danger'><i class='fas fa-times-circle'></i></button></td>
@@ -234,7 +241,7 @@ if ($_POST['funcion'] == 'reporte_productos') {
     $mpdf->Output("../pdf/pdf-" . $_POST['funcion'] . ".pdf", "F");
 }
 if ($_POST['funcion'] == 'reporte_productosExcel') {
-    $nombre_archivo='reporte_productos.xlsx';
+    $nombre_archivo = 'reporte_productos.xlsx';
     $producto->reporte_producto();
     $contador = 0;
     foreach ($producto->objetos as $objeto) {
@@ -256,54 +263,53 @@ if ($_POST['funcion'] == 'reporte_productosExcel') {
         );
     }
     $spreadsheet = new Spreadsheet();
-    $Sheet=$spreadsheet->getActiveSheet();
+    $Sheet = $spreadsheet->getActiveSheet();
     $Sheet->setTitle('Reporte de productos');
-    $Sheet->setCellValue('A1','Reporte de productos en Excel');
+    $Sheet->setCellValue('A1', 'Reporte de productos en Excel');
     $Sheet->getStyle('A1')->getFont()->setSize(17);
-    $Sheet->fromArray(array_keys($json[0]),NULL, 'A4');
+    $Sheet->fromArray(array_keys($json[0]), NULL, 'A4');
     $Sheet->getStyle('A4:I4')
-    ->getfill()
-    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-    ->getStartColor()
-    ->setARGB('2D9F39');
+        ->getfill()
+        ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+        ->getStartColor()
+        ->setARGB('2D9F39');
     $Sheet->getStyle('A4:I4')
-    ->getFont()
-    ->getColor()
-    ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
+        ->getFont()
+        ->getColor()
+        ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
     foreach ($json as $key => $producto) {
-        $celda=(int)$key+5;
-        if($producto['stock']==''){
-            $Sheet->getStyle('A'.$celda.':I'.$celda)
-            ->getFont()
-            ->getColor()
-            ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED);
+        $celda = (int)$key + 5;
+        if ($producto['stock'] == '') {
+            $Sheet->getStyle('A' . $celda . ':I' . $celda)
+                ->getFont()
+                ->getColor()
+                ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED);
         }
-        $Sheet->setCellValue('A'.$celda,$producto['N']);
-        $Sheet->setCellValue('B'.$celda,$producto['nombre']);
-        $Sheet->setCellValue('C'.$celda,$producto['concentracion']);
-        $Sheet->setCellValue('D'.$celda,$producto['adicional']);
-        $Sheet->setCellValue('E'.$celda,$producto['laboratorio']);
-        $Sheet->setCellValue('F'.$celda,$producto['presentacion']);
-        $Sheet->setCellValue('G'.$celda,$producto['tipo']);
-        $Sheet->setCellValue('H'.$celda,$producto['stock']);
-        $Sheet->setCellValue('I'.$celda,$producto['precio']);
+        $Sheet->setCellValue('A' . $celda, $producto['N']);
+        $Sheet->setCellValue('B' . $celda, $producto['nombre']);
+        $Sheet->setCellValue('C' . $celda, $producto['concentracion']);
+        $Sheet->setCellValue('D' . $celda, $producto['adicional']);
+        $Sheet->setCellValue('E' . $celda, $producto['laboratorio']);
+        $Sheet->setCellValue('F' . $celda, $producto['presentacion']);
+        $Sheet->setCellValue('G' . $celda, $producto['tipo']);
+        $Sheet->setCellValue('H' . $celda, $producto['stock']);
+        $Sheet->setCellValue('I' . $celda, $producto['precio']);
     }
-    foreach (range('B','I') as $col ) {
+    foreach (range('B', 'I') as $col) {
         $Sheet->getColumnDimension($col)->setAutoSize(true);
     }
-    
-    $writer=IOFactory::createWriter($spreadsheet,'Xlsx');
-    $writer->save('../Excel/'.$nombre_archivo);
+
+    $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer->save('../Excel/' . $nombre_archivo);
 }
-if($_POST['funcion']=='rellenar_productos'){
+if ($_POST['funcion'] == 'rellenar_productos') {
     $producto->rellenar_productos();
-    $json=array();
-    foreach ($producto->objetos as $objeto ) {
-        $json[]=array(
-            'nombre'=>$objeto->id_producto.' | '.$objeto->nombre.' | '.$objeto->concentracion.' | '.$objeto->adicional.' | '.$objeto->laboratorio
+    $json = array();
+    foreach ($producto->objetos as $objeto) {
+        $json[] = array(
+            'nombre' => $objeto->id_producto . ' | ' . $objeto->nombre . ' | ' . $objeto->concentracion . ' | ' . $objeto->adicional . ' | ' . $objeto->laboratorio
         );
     }
-    $jsonstring=json_encode($json);
+    $jsonstring = json_encode($json);
     echo $jsonstring;
-
 }

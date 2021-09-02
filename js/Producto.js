@@ -263,7 +263,6 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('../controlador/ProductoController.php', { id, funcion }, (response) => {
-                    console.log(response);
                     edit = false;
                     if (response == 'borrado') {
                         swalWithBootstrapButtons.fire(
