@@ -45,9 +45,11 @@ if ($_POST['funcion'] == 'buscar_lotes_riesgo') {
     foreach ($lote->objetos as $objeto) {
         $vencimiento = new DateTime($objeto->vencimiento);
         $diferencia = $vencimiento->diff($fecha_actual);
+        $anio=$diferencia->y;
         $mes = $diferencia->m;
         $dia = $diferencia->d;
         $verificado = $diferencia->invert;
+        $estado = 'light';
         if ($verificado == 0) {
             $estado = 'danger';
             $mes = $mes * (-1);
@@ -56,7 +58,7 @@ if ($_POST['funcion'] == 'buscar_lotes_riesgo') {
             if ($mes > 3) {
                 $estado = 'light';
             }
-            if ($mes <= 3) {
+            if ($mes <= 3 && $anio==0) {
                 $estado = 'warning';
             }
         }
@@ -91,9 +93,11 @@ if ($_POST['funcion'] == 'buscar') {
     foreach ($lote->objetos as $objeto) {
         $vencimiento = new DateTime($objeto->vencimiento);
         $diferencia = $vencimiento->diff($fecha_actual);
+        $anio=$diferencia->y;
         $mes = $diferencia->m;
         $dia = $diferencia->d;
         $verificado = $diferencia->invert;
+        $estado = 'light';
         if ($verificado == 0) {
             $estado = 'danger';
             $mes = $mes * (-1);
@@ -102,7 +106,7 @@ if ($_POST['funcion'] == 'buscar') {
             if ($mes > 3) {
                 $estado = 'light';
             }
-            if ($mes <= 3) {
+            if ($mes <= 3 && $anio==0) {
                 $estado = 'warning';
             }
         }
@@ -119,6 +123,7 @@ if ($_POST['funcion'] == 'buscar') {
             'tipo' => $objeto->tip_nom,
             'presentacion' => $objeto->pre_nom,
             'avatar' => '../img/prod/' . $objeto->logo,
+            'anio' => $anio,
             'mes' => $mes,
             'dia' => $dia,
             'estado' => $estado,
