@@ -72,7 +72,8 @@ $(document).ready(function () {
           { "data": "presentacion" },
           { "data": "proveedor" },
           { "data": "mes" },
-          { "data": "dia" }
+          { "data": "dia" },
+          { "data": "hora" },
         ],
         columnDefs:[
           {

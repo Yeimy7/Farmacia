@@ -84,7 +84,7 @@ class Producto
     }
     function borrar($id)
     {
-        $sql = "SELECT * from lote where id_producto=:id";
+        $sql = "SELECT * from lote where id_producto=:id and estado='A'";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':id' => $id));
         $lote = $query->fetchall();
